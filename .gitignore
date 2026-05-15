@@ -1,0 +1,43 @@
+# --- IDEs & System ---
+.vscode/
+.idea/
+.DS_Store
+*.log
+Thumbs.db
+
+# --- Dependencies ---
+# No monorepo, as node_modules ficam na raiz e dentro dos apps/packages
+node_modules/
+dist/
+build/
+.next/
+out/
+
+# --- Environment & Secrets ---
+# Nunca suba arquivos .env para o GitHub
+.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# --- Databases & Infrastructure ---
+# Ignora os dados do Postgres que o Docker salva localmente
+postgres_data/
+.docker/
+
+# --- Testing ---
+coverage/
+.vitest/
+
+# --- TypeScript ---
+*.tsbuildinfo
+
+# --- Next.js ---
+.next/
+next-env.d.ts (opcional, se quiser que cada dev gere o seu)
+
+# --- Prisma ---
+# Ignora o banco SQLite local se for usar para testes rápidos
+/prisma/*.db
+/prisma/*.db-journal

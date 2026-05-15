@@ -1,0 +1,32 @@
+{
+  "name": "desafio-fullstack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo para o desafio técnico da Cubos Tecnologia",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md}\"",
+    "dev:api": "npm run dev -w apps/api",
+    "dev:web": "npm run dev -w apps/web",
+    "build:api": "npm run build -w apps/api",
+    "build:web": "npm run build -w apps/web",
+    "start:api": "npm run start -w apps/api",
+    "prisma:generate": "npm run prisma generate -w apps/api",
+    "prisma:migrate": "npm run prisma migrate dev -w apps/api",
+    "prisma:studio": "npm run prisma studio -w apps/api",
+    "test": "npm run test -w apps/api",
+    "test:coverage": "npm run test:coverage -w apps/api",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
