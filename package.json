@@ -23,10 +23,9 @@
     "prisma:migrate": "npm run prisma migrate dev -w apps/api",
     "prisma:studio": "npm run prisma studio -w apps/api",
     "test": "npm run test -w apps/api",
-    "test:coverage": "npm run test:coverage -w apps/api",
-    "lint": "npm run lint --workspaces --if-present"
+    "test:coverage": "npm run test:coverage -w apps/api"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^6.0.3"
   }
 }
