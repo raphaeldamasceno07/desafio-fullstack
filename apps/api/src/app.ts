@@ -1,4 +1,3 @@
-import fastifyCookie from '@fastify/cookie'
 import cors from '@fastify/cors'
 import fastifySwagger from '@fastify/swagger'
 import scalarApiReference from '@scalar/fastify-api-reference'
@@ -8,6 +7,8 @@ import {
   validatorCompiler,
   ZodTypeProvider,
 } from 'fastify-type-provider-zod'
+import { ZodError } from 'zod'
+import { env } from './env'
 import { customTransform } from './lib/custom-trasnform'
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -39,4 +40,20 @@ app.register(scalarApiReference, {
   },
 })
 
-app.register(fastifyCookie)
+app.setErrorHandler((error, _, reply) => {
+  if (error instanceof ZodError) {
+    return reply.status(400).send({
+      message: 'validation error.',
+      issues: error.format(),
+    })
+  }
+  if (env.NODE_ENV !== 'prod') {
+    console.error(error)
+  } else {
+    // TODO We should log the error to an external service like Sentry or DataDog
+  }
+
+  return reply.status(500).send({
+    message: 'internal server error.',
+  })
+})
