@@ -16,7 +16,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
-    semi: ['error', 'never'], // Código limpo, sem ponto e vírgula por padrão
-    quotes: ['error', 'single'], // Aspas simples
+    semi: ['error', 'never'],
+    quotes: ['error', 'single'],
   },
 }

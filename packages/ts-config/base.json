@@ -8,10 +8,13 @@
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
     "isolatedModules": true,
-    "moduleResolution": "node",
+
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+
     "skipLibCheck": true,
     "strict": true,
-    "target": "esnext"
+    "target": "es2022"
   },
   "exclude": ["node_modules", "dist"]
 }
