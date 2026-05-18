@@ -1,21 +1,12 @@
 {
   "extends": "../../packages/ts-config/base.json",
   "compilerOptions": {
-    "outDir": "./build",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
-  },
-  "include": [
-    "src"
-  ]
-}
-{
-  "extends": "@movie-challenge/ts-config/base.json",
-  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2023",
+    "strict": true,
+    "esModuleInterop": true,
+    "ignoreDeprecations": "6.0",
     "outDir": "./build",
     "baseUrl": ".",
     "paths": {
