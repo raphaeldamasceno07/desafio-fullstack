@@ -14,19 +14,19 @@
   "scripts": {
     "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md}\"",
-    "dev:api": "npm run dev -w apps/api",
+    "dev:api": "docker compose up db api -d && docker compose logs api -f",
     "dev:web": "npm run dev -w apps/web",
     "build:api": "npm run build -w apps/api",
     "build:web": "npm run build -w apps/web",
     "start:api": "npm run start -w apps/api",
-    "prisma:generate": "npm run prisma generate -w apps/api",
-    "prisma:migrate": "npm run prisma migrate dev -w apps/api",
-    "prisma:studio": "npm run prisma studio -w apps/api",
+    "prisma:generate": "dotenv -e apps/api/.env -- npx prisma generate --schema=apps/api/prisma/schema.prisma",
+    "prisma:migrate": "dotenv -e apps/api/.env -- npx prisma migrate dev --schema=apps/api/prisma/schema.prisma",
+    "prisma:studio": "dotenv -e apps/api/.env -- npx prisma studio --schema=apps/api/prisma/schema.prisma",
     "test": "npm run test -w apps/api",
-    "test:coverage": "npm run test:coverage -w apps/api",
-    "lint": "npm run lint --workspaces --if-present"
+    "test:watch": "npm run test:watch -w apps/api",
+    "test:coverage": "npm run test:coverage -w apps/api"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^6.0.3"
   }
 }
