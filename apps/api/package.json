@@ -8,35 +8,37 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsup src --out-dir build",
     "start": "node build/server.js",
-    "test": "vitest run --dir src/use-cases",
-    "test:watch": "vitest --dir src/use-cases",
+    "test": "vitest run src/use-cases",
+    "test:watch": "vitest src/use-cases",
     "test:e2e": "vitest run --dir src/http",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {
+    "@movie-challenge/core-types": "*",
     "@fastify/cors": "^11.2.0",
     "@fastify/jwt": "^10.0.0",
     "@fastify/swagger": "9.7.0",
-    "@prisma/client": "^7.8.0",
     "@scalar/fastify-api-reference": "1.57.2",
     "bcryptjs": "^3.0.3",
-    "dotenv": "^17.4.2",
+    "dotenv": "17.4.2",
     "fastify": "5.8.5",
     "fastify-type-provider-zod": "6.1.0",
+    "vitest": "4.1.6",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@movie-challenge/eslint-config": "*",
     "@movie-challenge/ts-config": "*",
     "@types/bcryptjs": "^3.0.0",
-    "@types/node": "^25.8.0",
+    "@types/node": "25.8.0",
+    "@vitest/coverage-v8": "4.1.6",
     "prettier": "3.8.3",
-    "prisma": "^7.8.0",
     "tsup": "^8.5.1",
     "tsx": "^4.22.0",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.6"
+    "vite-tsconfig-paths": "6.1.1",
+    "vitest-tsconfig-paths": "3.4.1"
   }
 }
