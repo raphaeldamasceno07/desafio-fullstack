@@ -7,7 +7,6 @@ on:
     branches: [main, develop]
 
 jobs:
-  # JOB 1: Verificar a qualidade do código (Lint e Formatação)
   lint-and-format:
     name: Lint & Format
     runs-on: ubuntu-latest
@@ -19,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-on-version: '20'
+          node-version: '20' 
           cache: 'npm'
 
       - name: Install dependencies
@@ -28,11 +27,10 @@ jobs:
       - name: Check code formatting
         run: npm run format:check
 
-  # JOB 2: Testes Unitários (Roda em memória, super rápido)
   unit-tests:
     name: Run Unit Tests
     runs-on: ubuntu-latest
-    needs: lint-and-format # Só começa se o Lint passar
+    needs: lint-and-format
 
     steps:
       - name: Checkout code
@@ -47,17 +45,36 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Gera o client do Prisma antes para o TypeScript não reclamar dos tipos nos testes
       - name: Generate Prisma Client
-        run: npx prisma generate --schema=apps/api/prisma/schema.prisma
+        run: npx prisma generate --schema=prisma/schema.prisma
 
       - name: Run unit tests (Vitest)
         run: npm run test
 
-  # JOB 3: Testes de Integração/E2E (Futuro)
-  # Deixaremos comentado ou estruturado para quando criarmos os testes com Banco real no Docker
-  # integration-tests:
-  #   name: Run Integration Tests
-  #   runs-on: ubuntu-latest
-  #   needs: unit-tests # Só começa se os unitários passarem
-  #   ...
+  integration-tests:
+    name: Run Integration Tests
+    runs-on: ubuntu-latest
+    needs: unit-tests
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate --schema=prisma/schema.prisma
+
+      - name: Run Integration Tests (Testcontainers)
+        run: npm run test:e2e:watch -- --watch=false
+        env:
+          NODE_ENV: test
+
+          DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/fake_db?schema=public'
