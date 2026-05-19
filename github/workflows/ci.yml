@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' 
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
@@ -45,8 +45,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # 🚀 Atualizado: O schema agora está dentro de apps/api/prisma/
       - name: Generate Prisma Client
-        run: npx prisma generate --schema=prisma/schema.prisma
+        run: npx prisma generate --schema=apps/api/prisma/schema.prisma
 
       - name: Run unit tests (Vitest)
         run: npm run test
@@ -69,12 +70,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # 🚀 Atualizado: O schema agora está dentro de apps/api/prisma/
       - name: Generate Prisma Client
-        run: npx prisma generate --schema=prisma/schema.prisma
+        run: npx prisma generate --schema=apps/api/prisma/schema.prisma
 
+      # 🚀 Atualizado: Rodar os testes especificando o escopo do workspace da API
       - name: Run Integration Tests (Testcontainers)
-        run: npm run test:e2e:watch -- --watch=false
+        run: npm run test:e2e:watch -w apps/api -- --watch=false
         env:
           NODE_ENV: test
-
           DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/fake_db?schema=public'
