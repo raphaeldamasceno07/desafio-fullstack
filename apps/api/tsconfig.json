@@ -6,20 +6,13 @@
     "target": "ES2023",
     "strict": true,
     "esModuleInterop": true,
-    "types": [
-      "vitest/globals",
-      "node"
-    ],
+    "types": ["vitest/globals", "node"],
     "ignoreDeprecations": "6.0",
     "outDir": "./build",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
