@@ -1,6 +1,6 @@
 import { IHashProvider } from '@/providers/HashProvider/IHashProvider'
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-users-repository'
-import { User } from 'generated/prisma/client'
+import { User } from '@prisma/client'
 import { InvalidCredentialsError } from '../errors/invalid-credentials'
 
 interface AuthenticationUseCaseRequest {
