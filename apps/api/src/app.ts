@@ -1,6 +1,7 @@
 import fastitfyCookie from '@fastify/cookie'
 import cors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
+import fastifyMultipart from '@fastify/multipart'
 import fastifySwagger from '@fastify/swagger'
 import scalarApiReference from '@scalar/fastify-api-reference'
 import fastify from 'fastify'
@@ -17,6 +18,12 @@ import { customTransform } from './lib/custom-trasnform'
 import { AppError } from './use-cases/errors/app-error'
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
+
+app.register(fastifyMultipart, {
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+})
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
@@ -41,7 +48,23 @@ app.register(scalarApiReference, {
   configuration: {
     theme: 'kepler',
     layout: 'modern',
-    showSidebar: true,
+    showSiderbar: true,
+  },
+})
+
+app.register(userRoutes)
+app.register(sessionRoutes)
+
+app.register(fastitfyCookie)
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false,
+  },
+  sign: {
+    expiresIn: '10m',
   },
 })
 
@@ -64,6 +87,7 @@ app.register(sessionRoutes)
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply.status(400).send({
+      message: 'Validation error.',
       message: 'Validation error.',
       issues: error.format(),
     })

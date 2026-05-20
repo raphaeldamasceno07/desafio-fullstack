@@ -1,4 +1,4 @@
-import { IHashProvider } from '@/providers/HashProvider/IHashProvider'
+import { IHashProvider } from '@/providers/HashProvider/hash-provider'
 import { UserRepository } from '@/repositories/users-repository'
 import { User } from '@prisma/client'
 import { UserAlreadyExistsError } from '../errors/user-already-exists'

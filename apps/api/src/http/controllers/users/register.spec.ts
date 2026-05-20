@@ -1,6 +1,6 @@
 import { app } from '@/app'
 import { prisma } from '@/lib/prisma'
-import { BCryptHashProvider } from '@/providers/HashProvider/BCryptHashProvider'
+import { BCryptHashProvider } from '@/providers/HashProvider/bcrypt-hash-provider'
 import request from 'supertest'
 
 const hashProvider = new BCryptHashProvider()

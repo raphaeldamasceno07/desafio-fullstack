@@ -1,4 +1,4 @@
-import { FakeHashProvider } from '@/providers/HashProvider/fakes/FakeHashProvider'
+import { FakeHashProvider } from '@/providers/HashProvider/fakes/fake-hash-provider'
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { ResourceNotFoundError } from '../errors/resource-not-found'
 import { UpdateUsersUseCase } from './update-user'
