@@ -1,6 +1,5 @@
 import fastitfyCookie from '@fastify/cookie'
 import cors from '@fastify/cors'
-import fastifyJwt from '@fastify/jwt'
 import fastifyMultipart from '@fastify/multipart'
 import fastifySwagger from '@fastify/swagger'
 import scalarApiReference from '@scalar/fastify-api-reference'
@@ -57,37 +56,9 @@ app.register(sessionRoutes)
 
 app.register(fastitfyCookie)
 
-app.register(fastifyJwt, {
-  secret: env.JWT_SECRET,
-  cookie: {
-    cookieName: 'refreshToken',
-    signed: false,
-  },
-  sign: {
-    expiresIn: '10m',
-  },
-})
-
-app.register(fastitfyCookie)
-
-app.register(fastifyJwt, {
-  secret: env.JWT_SECRET,
-  cookie: {
-    cookieName: 'refreshToken',
-    signed: false,
-  },
-  sign: {
-    expiresIn: '10m',
-  },
-})
-
-app.register(userRoutes)
-app.register(sessionRoutes)
-
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply.status(400).send({
-      message: 'Validation error.',
       message: 'Validation error.',
       issues: error.format(),
     })
