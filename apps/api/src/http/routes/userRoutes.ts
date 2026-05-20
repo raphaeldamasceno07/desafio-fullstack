@@ -4,6 +4,7 @@ import {
   updateUserBodySchema,
 } from '@movie-challenge/core-types'
 import z from 'zod'
+import { remove } from '../controllers/users/delete'
 import { profile } from '../controllers/users/profile'
 import { register } from '../controllers/users/register'
 import { update } from '../controllers/users/update'
@@ -93,5 +94,27 @@ export async function userRoutes() {
       },
     },
     update,
+  )
+
+  app.delete(
+    '/me',
+    {
+      onRequest: [verifyJWT],
+      schema: {
+        tags: ['Users'],
+        summary: 'Delete authenticated user',
+        description: 'Delete the authenticated user account.',
+        response: {
+          204: z.null(),
+          401: z.object({
+            message: z.string().describe('Unauthorized access'),
+          }),
+          404: z.object({
+            message: z.string().describe('Resource not found.'),
+          }),
+        },
+      },
+    },
+    remove,
   )
 }

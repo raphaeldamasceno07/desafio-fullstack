@@ -25,8 +25,6 @@ describe('Authentication Use Case', () => {
       password_hash,
     })
 
-    console.log(newUser.password_hash)
-
     const { user } = await sut.execute({
       email: 'raphael@example.com',
       password: '123456',
