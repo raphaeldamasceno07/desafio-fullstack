@@ -1,8 +1,12 @@
 import { app } from '@/app'
-import { registerBodySchema } from '@movie-challenge/core-types'
+import {
+  registerBodySchema,
+  updateUserBodySchema,
+} from '@movie-challenge/core-types'
 import z from 'zod'
 import { profile } from '../controllers/users/profile'
 import { register } from '../controllers/users/register'
+import { update } from '../controllers/users/update'
 import { verifyJWT } from '../middlewares/verify-jwt'
 
 export async function userRoutes() {
@@ -57,5 +61,37 @@ export async function userRoutes() {
       },
     },
     profile,
+  )
+
+  app.patch(
+    '/me',
+    {
+      onRequest: [verifyJWT],
+      schema: {
+        tags: ['Users'],
+        summary: 'Update authenticated user profile',
+        description:
+          'Update the authenticated user profile. At least one field is required.',
+        body: updateUserBodySchema,
+        response: {
+          200: z.object({
+            id: z.string().describe('User ID'),
+            name: z.string().describe('User name'),
+            email: z.string().describe('User email'),
+            createdAt: z.string().describe('Account creation date'),
+          }),
+          400: z.object({
+            message: z.string().describe('Validation error'),
+          }),
+          401: z.object({
+            message: z.string().describe('Unauthorized access'),
+          }),
+          404: z.object({
+            message: z.string().describe('Resource not found.'),
+          }),
+        },
+      },
+    },
+    update,
   )
 }

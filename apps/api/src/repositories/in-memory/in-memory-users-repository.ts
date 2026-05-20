@@ -1,5 +1,5 @@
 import { CreateUserRequest } from '@movie-challenge/core-types'
-import { User } from 'generated/prisma/client'
+import { User } from '@prisma/client'
 import { UserRepository } from '../users-repository'
 
 export class InMemoryUserRepository implements UserRepository {
@@ -33,5 +33,16 @@ export class InMemoryUserRepository implements UserRepository {
     this.items.push(newUser)
 
     return newUser
+  }
+
+  async update(id: string, data: Partial<CreateUserRequest>) {
+    const userIndex = this.items.findIndex(item => item.id === id)
+
+    if (userIndex === -1) return null
+
+    const updatedUser = { ...this.items[userIndex], ...data }
+    this.items[userIndex] = updatedUser
+
+    return updatedUser
   }
 }
