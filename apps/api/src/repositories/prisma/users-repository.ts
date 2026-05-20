@@ -26,4 +26,29 @@ export class PrismaUsersRepository implements UserRepository {
     })
     return user
   }
+
+  async update(
+    id: string,
+    data: Partial<Omit<User, 'id'>>,
+  ): Promise<User | null> {
+    try {
+      const updatedUser = await prisma.user.update({
+        where: {
+          id,
+        },
+        data,
+      })
+      return updatedUser
+    } catch (error) {
+      return null
+    }
+  }
+
+  async delete(id: string): Promise<void> {
+    await prisma.user.delete({
+      where: {
+        id,
+      },
+    })
+  }
 }

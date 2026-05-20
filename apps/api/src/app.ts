@@ -45,9 +45,6 @@ app.register(scalarApiReference, {
   },
 })
 
-app.register(userRoutes)
-app.register(sessionRoutes)
-
 app.register(fastitfyCookie)
 
 app.register(fastifyJwt, {
@@ -60,6 +57,9 @@ app.register(fastifyJwt, {
     expiresIn: '10m',
   },
 })
+
+app.register(userRoutes)
+app.register(sessionRoutes)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

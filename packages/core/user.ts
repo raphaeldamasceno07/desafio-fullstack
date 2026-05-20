@@ -12,6 +12,16 @@ export const createUserSchema = z.object({
   password_hash: z.string(),
 })
 
+export const updateUserBodySchema = z
+  .object({
+    name: z.string().optional(),
+    email: z.string().email().optional(),
+    password: z.string().min(6).optional(),
+  })
+  .refine(body => Object.keys(body).length > 0, {
+    message: 'At least one field must be provided.',
+  })
+
 export type CreateUserRequest = z.infer<typeof createUserSchema>
 
 export interface UserDTO {
