@@ -1,4 +1,4 @@
-import { IHashProvider } from '@/providers/HashProvider/IHashProvider'
+import { IHashProvider } from '@/providers/HashProvider/hash-provider'
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { User } from '@prisma/client'
 import { InvalidCredentialsError } from '../errors/invalid-credentials'

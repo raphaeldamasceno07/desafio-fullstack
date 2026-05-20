@@ -6,6 +6,11 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(3333),
   JWT_SECRET: z.string(),
   DATABASE_URL: z.string(),
+  CLOUDFLARE_ENDPOINT: z.string().url().optional(),
+  CLOUDFLARE_ACCESS_KEY_ID: z.string().optional(),
+  CLOUDFLARE_SECRET_ACCESS_KEY: z.string().optional(),
+  CLOUDFLARE_BUCKET_NAME: z.string().optional(),
+  CLOUDFLARE_PUBLIC_URL: z.string().url().optional(),
 })
 
 const _env = envSchema.safeParse(process.env)

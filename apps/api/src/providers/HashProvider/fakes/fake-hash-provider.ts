@@ -1,8 +1,8 @@
-import type { IHashProvider } from '../IHashProvider.js'
+import type { IHashProvider } from '../hash-provider.js'
 
 export class FakeHashProvider implements IHashProvider {
   async generateHash(payload: string): Promise<string> {
-    return payload + '-hashed' // Simulação simples
+    return payload + '-hashed'
   }
 
   async compareHash(payload: string, hashed: string): Promise<boolean> {

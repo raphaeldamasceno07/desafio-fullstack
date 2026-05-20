@@ -1,4 +1,4 @@
-import { FakeHashProvider } from '@/providers/HashProvider/fakes/FakeHashProvider'
+import { FakeHashProvider } from '@/providers/HashProvider/fakes/fake-hash-provider'
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { InvalidCredentialsError } from '../errors/invalid-credentials'

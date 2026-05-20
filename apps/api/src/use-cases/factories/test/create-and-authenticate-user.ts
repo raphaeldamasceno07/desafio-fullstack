@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { BCryptHashProvider } from '@/providers/HashProvider/BCryptHashProvider'
+import { BCryptHashProvider } from '@/providers/HashProvider/bcrypt-hash-provider'
 import { Prisma } from '@prisma/client'
 import { FastifyInstance } from 'fastify'
 import { randomUUID } from 'node:crypto'

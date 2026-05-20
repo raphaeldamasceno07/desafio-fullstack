@@ -1,6 +1,7 @@
 import fastitfyCookie from '@fastify/cookie'
 import cors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
+import fastifyMultipart from '@fastify/multipart'
 import fastifySwagger from '@fastify/swagger'
 import scalarApiReference from '@scalar/fastify-api-reference'
 import fastify from 'fastify'
@@ -21,8 +22,26 @@ export const app = fastify().withTypeProvider<ZodTypeProvider>()
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
+app.register(fastitfyCookie)
+app.register(fastifyMultipart, {
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+})
+
 app.register(cors, {
   origin: '*',
+})
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false,
+  },
+  sign: {
+    expiresIn: '10m',
+  },
 })
 
 app.register(fastifySwagger, {
@@ -42,19 +61,6 @@ app.register(scalarApiReference, {
     theme: 'kepler',
     layout: 'modern',
     showSidebar: true,
-  },
-})
-
-app.register(fastitfyCookie)
-
-app.register(fastifyJwt, {
-  secret: env.JWT_SECRET,
-  cookie: {
-    cookieName: 'refreshToken',
-    signed: false,
-  },
-  sign: {
-    expiresIn: '10m',
   },
 })
 
@@ -88,8 +94,6 @@ app.setErrorHandler((error, _, reply) => {
 
   if (env.NODE_ENV !== 'prod') {
     console.error('❌ [Internal Error]:', error)
-  } else {
-    // TODO: Integrate with an error tracking service like Sentry or LogRocket
   }
 
   return reply.status(500).send({
