@@ -1,4 +1,7 @@
-import { CreateMovieRequest } from '@movie-challenge/core-types'
+import {
+  CreateMovieRequest,
+  FindManyMoviesParams,
+} from '@movie-challenge/core-types'
 import { Movie } from '@prisma/client'
 
 export type CreateMovieRepositoryData = Omit<
@@ -14,4 +17,5 @@ export type CreateMovieRepositoryData = Omit<
 export interface MovieRepository {
   create(data: CreateMovieRepositoryData): Promise<Movie>
   findBySlug(slug: string): Promise<Movie | null>
+  findManyByParams(params: FindManyMoviesParams): Promise<Movie[]>
 }

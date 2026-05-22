@@ -41,7 +41,9 @@ export class UpdateUsersUseCase {
 
     if (!updatedUser) throw new ResourceNotFoundError()
 
-    const { password_hash, ...userWithoutPassword } = updatedUser
+    const { password_hash: _password_hash, ...userWithoutPassword } =
+      updatedUser
+    void _password_hash
 
     return {
       user: userWithoutPassword,

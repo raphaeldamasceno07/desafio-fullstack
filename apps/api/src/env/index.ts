@@ -11,6 +11,7 @@ const envSchema = z.object({
   CLOUDFLARE_SECRET_ACCESS_KEY: z.string().optional(),
   CLOUDFLARE_BUCKET_NAME: z.string().optional(),
   CLOUDFLARE_PUBLIC_URL: z.string().url().optional(),
+  SMTP_HOST: z.string().default('localhost'),
 })
 
 const _env = envSchema.safeParse(process.env)

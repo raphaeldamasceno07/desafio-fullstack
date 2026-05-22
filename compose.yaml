@@ -26,6 +26,7 @@ services:
     command: npm run dev -w apps/api
     depends_on:
       - db
+      - mailhog
 
   web:
     build:
@@ -43,6 +44,14 @@ services:
     command: npm run dev -w apps/web
     depends_on:
       - api
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: movie_challenge_mailhog
+    restart: always
+    ports:
+      - '1025:1025'
+      - '8025:8025'
 
 volumes:
   postgres_data:

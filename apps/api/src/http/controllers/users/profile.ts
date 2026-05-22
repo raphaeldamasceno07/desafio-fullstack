@@ -8,7 +8,14 @@ export async function profile(request: FastifyRequest, reply: FastifyReply) {
     userId: request.user.sub,
   })
 
-  const { password_hash, created_at, updated_at, ...userWithoutPassword } = user
+  const {
+    password_hash: _password_hash,
+    created_at,
+    updated_at: _updated_at,
+    ...userWithoutPassword
+  } = user
+  void _password_hash
+  void _updated_at
 
   return reply.status(200).send({
     ...userWithoutPassword,
