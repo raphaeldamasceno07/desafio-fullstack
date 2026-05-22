@@ -8,7 +8,7 @@ import {
 export class InMemoryMoviesRepository implements MovieRepository {
   public items: Movie[] = []
 
-  async createMovie(data: CreateMovieRepositoryData): Promise<Movie> {
+  async create(data: CreateMovieRepositoryData): Promise<Movie> {
     const newMovie: Movie = {
       id: crypto.randomUUID(),
       title: data.title,
@@ -29,17 +29,17 @@ export class InMemoryMoviesRepository implements MovieRepository {
     return newMovie
   }
 
-  async findMovieById(movieId: string): Promise<Movie | null> {
-    const movie = this.items.find(item => item.id === movieId)
+  async findById(movieId: string): Promise<Movie | null> {
+    const movie = this.items.find(item => item.id === slug)
     return movie ?? null
   }
 
-  async findMovieBySlug(slug: string): Promise<Movie | null> {
+  async findBySlug(slug: string): Promise<Movie | null> {
     const movie = this.items.find(item => item.slug === slug)
     return movie ?? null
   }
 
-  async findManyMoviesByParams({
+  async findManyByParams({
     search,
     genre,
     durationMax,
@@ -89,7 +89,7 @@ export class InMemoryMoviesRepository implements MovieRepository {
     return filteredMovies.slice(startIndex, endIndex)
   }
 
-  async updateMovie(movie: Movie): Promise<Movie> {
+  async save(movie: Movie): Promise<Movie> {
     const itemIndex = this.items.findIndex(item => item.id === movie.id)
 
     if (itemIndex >= 0) {

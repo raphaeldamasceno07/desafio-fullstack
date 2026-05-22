@@ -2,7 +2,7 @@ import { app } from '@/app'
 import { prisma } from '@/lib/prisma'
 import { MailhogMailProvider } from '@/providers/MailProvider/mailhog-mail-provider'
 import { CloudflareR2StorageProvider } from '@/providers/StorageProvider/implementations/cloudflare-r2-storage-provider'
-import { hash } from 'bcryptjs'
+import { createAndAuthenticateUser } from '@/use-cases/factories/test/create-and-authenticate-user'
 import crypto from 'node:crypto'
 import request from 'supertest'
 
@@ -51,20 +51,13 @@ describe('Create Movie (E2E)', () => {
 
     const uniqueEmail = `johndoe-${crypto.randomUUID()}@example.com`
 
-    await prisma.user.create({
-      data: {
-        name: 'John Doe',
-        email: uniqueEmail,
-        password_hash: await hash('123456', 6),
-      },
-    })
-
-    const authResponse = await request(app.server).post('/sessions').send({
+    const movieOwner = {
+      name: 'John Doe',
       email: uniqueEmail,
       password: '123456',
-    })
+    }
 
-    const { token } = authResponse.body
+    const { token } = await createAndAuthenticateUser(app, movieOwner)
 
     const uniqueId = crypto.randomUUID().substring(0, 8)
     const movieTitle = `Filme de Teste E2E - ${uniqueId}`
@@ -104,19 +97,10 @@ describe('Create Movie (E2E)', () => {
   })
 
   it('should schedule an email reminder when creating a movie with a future release date', async () => {
-    // 💡 SOLUÇÃO: Deleta e limpa qualquer valor antigo para forçar o 'localhost' padrão
     delete process.env.SMTP_HOST
 
-    console.log(
-      '\n------------------------------------------------------------',
-    )
-    console.log('🚀 [TEST 2] Iniciando fluxo de filme futuro + Mailhog...')
-
-    // Reseta a interceptação para garantir o isolamento do teste
     interceptedEmailData = null
 
-    // ... restante do seu código continua exatamente idêntico
-    // 💡 AQUI ESTÁ O SEGREDO: Moca apenas o Date, deixando a rede e o sleep() livres
     vi.useFakeTimers({ toFake: ['Date'] })
     vi.setSystemTime(new Date('2026-01-01T12:00:00Z'))
     console.log(
@@ -125,20 +109,13 @@ describe('Create Movie (E2E)', () => {
 
     const targetEmail = `cinefilo-${crypto.randomUUID()}@example.com`
 
-    await prisma.user.create({
-      data: {
-        name: 'Raphael Test',
-        email: targetEmail,
-        password_hash: await hash('123456', 6),
-      },
-    })
-
-    const authResponse = await request(app.server).post('/sessions').send({
+    const userData = {
+      name: 'Raphael Test',
       email: targetEmail,
       password: '123456',
-    })
+    }
 
-    const { token } = authResponse.body
+    const { token } = await createAndAuthenticateUser(app, userData)
 
     const futureDate = '2026-01-10'
     const uniqueId = crypto.randomUUID().substring(0, 8)
@@ -157,19 +134,10 @@ describe('Create Movie (E2E)', () => {
       .field('genre', 'Ficção')
       .attach('file', Buffer.from('fake-image-content'), 'avatar5.jpg')
 
-    console.log(
-      `✅ Status retornado pela API no Teste 2: ${response.statusCode}`,
-    )
     expect(response.statusCode).toEqual(201)
 
-    // Devolve o controle total ao Node
     vi.useRealTimers()
 
-    console.log(
-      '📬 [4/4] Validando e-mail interceptado com sucesso da memória local...',
-    )
-
-    // 💡 AQUI ESTÁ A MÁGICA: Em vez de usar o for/fetch, lemos o mock direto!
     expect(interceptedEmailData).toBeTruthy()
 
     expect(interceptedEmailData.Content.Headers.Subject[0]).toEqual(
@@ -177,10 +145,5 @@ describe('Create Movie (E2E)', () => {
     )
 
     expect(interceptedEmailData.Content.Headers.To[0]).toEqual(targetEmail)
-
-    console.log('🎉 [TEST 2] Sucesso! Tudo concluído.')
-    console.log(
-      '------------------------------------------------------------\n',
-    )
   })
 })
