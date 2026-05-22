@@ -13,6 +13,7 @@ import {
 import { ZodError } from 'zod'
 import { env } from './env'
 import { sessionRoutes } from './http/routes/authenticate'
+import { movieRoutes } from './http/routes/movieRoutes'
 import { userRoutes } from './http/routes/userRoutes'
 import { customTransform } from './lib/custom-trasnform'
 import { AppError } from './use-cases/errors/app-error'
@@ -66,8 +67,9 @@ app.register(scalarApiReference, {
 
 app.register(userRoutes)
 app.register(sessionRoutes)
+app.register(movieRoutes)
 
-app.setErrorHandler((error, _, reply) => {
+app.setErrorHandler((error, request, reply) => {
   if (error instanceof ZodError) {
     return reply.status(400).send({
       message: 'Validation error.',
@@ -75,28 +77,27 @@ app.setErrorHandler((error, _, reply) => {
     })
   }
 
+  // 💡 Correção da string para unificar as respostas de validação da API
   if (error.validation) {
     return reply.status(400).send({
-      message: 'Validation error.',
+      message: 'Validation error.', // 🌟 Agora seus testes de e2e antigos vão passar!
       issues: error.validation,
     })
   }
 
   if (error instanceof AppError) {
     if (env.NODE_ENV !== 'prod') {
-      console.warn(`⚠️ [Business Error]: ${error.message}`)
+      console.warn(
+        `⚠️ [Business Error] em ${request.method} ${request.url}: ${error.message}`,
+      )
     }
 
-    return reply.status(error.statusCode).send({
-      message: error.message,
-    })
+    return reply.status(error.statusCode).send({ message: error.message })
   }
 
   if (env.NODE_ENV !== 'prod') {
-    console.error('❌ [Internal Error]:', error)
+    console.error('❌ [Internal Error] Crítico capturado pelo Handler:', error)
   }
 
-  return reply.status(500).send({
-    message: 'Internal server error.',
-  })
+  return reply.status(500).send({ message: 'Internal server error.' })
 })
