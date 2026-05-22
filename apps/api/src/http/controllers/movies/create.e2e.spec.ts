@@ -8,10 +8,8 @@ import request from 'supertest'
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-// 💡 Variável global do arquivo de teste para capturar o e-mail interceptado do Use Case
 let interceptedEmailData: any = null
 
-// 💡 Mock do R2 ativo e protegido
 vi.spyOn(CloudflareR2StorageProvider.prototype, 'upload').mockResolvedValue(
   'https://pub-mock-storage.r2.dev/test-poster.jpg',
 )
@@ -27,7 +25,6 @@ const mockSendMail = async (data: any) => {
   }
 }
 
-// Intercepta no protótipo da classe para o Fastify pegar o mock
 vi.spyOn(MailhogMailProvider.prototype, 'sendMail').mockImplementation(
   mockSendMail,
 )
