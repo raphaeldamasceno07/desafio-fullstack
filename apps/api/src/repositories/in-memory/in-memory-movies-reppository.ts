@@ -30,7 +30,7 @@ export class InMemoryMoviesRepository implements MovieRepository {
   }
 
   async findById(movieId: string): Promise<Movie | null> {
-    const movie = this.items.find(item => item.id === slug)
+    const movie = this.items.find(item => item.id === movieId)
     return movie ?? null
   }
 
