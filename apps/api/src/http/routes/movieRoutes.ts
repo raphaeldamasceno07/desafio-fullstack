@@ -6,6 +6,7 @@ import { FastifyInstance } from 'fastify'
 import z from 'zod'
 import { createMovie } from '../controllers/movies/create'
 import { fetchMovies } from '../controllers/movies/fetch-movies'
+import { getMovieDetails } from '../controllers/movies/get-movie-details'
 import { verifyJWT } from '../middlewares/verify-jwt'
 
 export async function movieRoutes(app: FastifyInstance) {
@@ -60,5 +61,21 @@ export async function movieRoutes(app: FastifyInstance) {
       },
     },
     fetchMovies,
+  )
+
+  app.get(
+    '/movies/slug/:slug',
+    {
+      schema: {
+        tags: ['Movies'],
+        summary: 'Get movie details by slug',
+        description:
+          'Fetch all detailed information of a single movie using its unique slug.',
+        params: z.object({
+          slug: z.string().describe('The unique slug of the movie'),
+        }),
+      },
+    },
+    getMovieDetails,
   )
 }

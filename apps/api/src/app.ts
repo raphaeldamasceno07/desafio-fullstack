@@ -80,7 +80,7 @@ app.setErrorHandler((error, request, reply) => {
   // 💡 Correção da string para unificar as respostas de validação da API
   if (error.validation) {
     return reply.status(400).send({
-      message: 'Validation error.', // 🌟 Agora seus testes de e2e antigos vão passar!
+      message: 'Validation error.',
       issues: error.validation,
     })
   }

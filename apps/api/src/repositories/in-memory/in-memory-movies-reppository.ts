@@ -45,8 +45,10 @@ export class InMemoryMoviesRepository implements MovieRepository {
     let filteredMovies = this.items
 
     if (search) {
-      filteredMovies = filteredMovies.filter(movie =>
-        movie.title.toLowerCase().includes(search.toLowerCase()),
+      filteredMovies = filteredMovies.filter(
+        movie =>
+          movie.title.toLowerCase().includes(search.toLowerCase()) ||
+          movie.original_title.toLowerCase().includes(search.toLowerCase()),
       )
     }
 
