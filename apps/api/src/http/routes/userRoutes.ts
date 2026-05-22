@@ -16,7 +16,7 @@ export async function userRoutes() {
     {
       schema: {
         tags: ['Users'],
-        summary: '/register',
+        summary: 'Create a user',
         description: 'Create a new user account',
         body: registerBodySchema,
         response: {

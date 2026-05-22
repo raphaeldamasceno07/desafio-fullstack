@@ -34,6 +34,7 @@ describe('Create Movie Use Case', () => {
       budget: 160000000,
       genre: 'Sci-Fi',
       release_date: '2010-07-16',
+      file: null,
     })
 
     expect(movie.id).toEqual(expect.any(String))

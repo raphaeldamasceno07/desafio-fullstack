@@ -19,7 +19,7 @@ describe('Authentication Use Case', () => {
   it('should be able to authenticate', async () => {
     const password_hash = await hashProvider.generateHash('123456')
 
-    const newUser = await usersRepository.create({
+    await usersRepository.create({
       name: 'Raphael',
       email: 'raphael@example.com',
       password_hash,

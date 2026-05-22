@@ -39,7 +39,7 @@ export class PrismaUsersRepository implements UserRepository {
         data,
       })
       return updatedUser
-    } catch (error) {
+    } catch {
       return null
     }
   }
