@@ -44,11 +44,6 @@ describe('Create Movie (E2E)', () => {
   })
 
   it('should be able to create a movie with a poster', async () => {
-    console.log(
-      '\n------------------------------------------------------------',
-    )
-    console.log('🎬 [TEST 1] Iniciando criação de filme com pôster...')
-
     const uniqueEmail = `johndoe-${crypto.randomUUID()}@example.com`
 
     const movieOwner = {
@@ -78,10 +73,6 @@ describe('Create Movie (E2E)', () => {
       .field('genre', 'Ação, Ficção')
       .attach('file', Buffer.from('fake-image-content'), 'test-poster.jpg')
 
-    console.log(
-      `✅ Status retornado pela API no Teste 1: ${response.statusCode}`,
-    )
-
     expect(response.statusCode).toEqual(201)
     expect(response.body.movie).toHaveProperty('id')
     expect(response.body.movie.title).toEqual(movieTitle)
@@ -92,8 +83,6 @@ describe('Create Movie (E2E)', () => {
     })
 
     expect(movieOnDatabase).toBeTruthy()
-    console.log('🎉 [TEST 1] Sucesso!')
-    console.log('------------------------------------------------------------')
   })
 
   it('should schedule an email reminder when creating a movie with a future release date', async () => {
@@ -103,9 +92,6 @@ describe('Create Movie (E2E)', () => {
 
     vi.useFakeTimers({ toFake: ['Date'] })
     vi.setSystemTime(new Date('2026-01-01T12:00:00Z'))
-    console.log(
-      `⏱️ [TIME MOCK] Relógio do sistema travado em: ${new Date().toISOString()}`,
-    )
 
     const targetEmail = `cinefilo-${crypto.randomUUID()}@example.com`
 

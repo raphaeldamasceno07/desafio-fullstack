@@ -2,8 +2,8 @@ import { NotAllowedError } from '@/use-cases/errors/not-allowed'
 import { ResourceNotFoundError } from '@/use-cases/errors/resource-not-found'
 import { makeUpdateMovieUseCase } from '@/use-cases/factories/make-update-movie'
 import {
+  movieParamsSchema,
   updateMovieBodySchema,
-  updateMovieParamsSchema,
 } from '@movie-challenge/core-types'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
@@ -11,7 +11,7 @@ export async function updateMovie(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { id } = updateMovieParamsSchema.parse(request.params)
+  const { id } = movieParamsSchema.parse(request.params)
   const data = updateMovieBodySchema.parse(request.body)
   const userId = request.user.sub
 

@@ -58,7 +58,7 @@ export interface CreateMovieResponse {
   movie: MovieResponse
 }
 
-export const updateMovieParamsSchema = z.object({
+export const movieParamsSchema = z.object({
   id: z.string().uuid(),
 })
 

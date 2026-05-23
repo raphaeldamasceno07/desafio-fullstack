@@ -68,28 +68,12 @@ export class CreateMovieUseCase {
       poster_url: posterUrl,
     })
 
-    const today = new Date()
-
-    console.log(
-      `\n📅 [USE CASE DATAS] Comparando Estreia: ${releaseDate.toISOString()} com Hoje: ${today.toISOString()}`,
-    )
-
-    if (releaseDate > today) {
-      console.log(
-        '✉️ [USE CASE] Condição aceita! Disparando método sendMail do MailhogProvider...',
-      )
-
-      await this.mailProvider.sendMail({
-        to: data.userEmail,
-        subject: `Lembrete de Estreia: ${data.title}!`,
-        body: `Olá! O filme "${data.title}" está estreando hoje!`,
-        sendAt: releaseDate,
-      })
-    } else {
-      console.log(
-        '⚠️ [USE CASE] Condição recusada! O e-mail NÃO foi disparado porque a data não é considerada futura.',
-      )
-    }
+    await this.mailProvider.sendMail({
+      to: data.userEmail,
+      subject: `Lembrete de Estreia: ${data.title}!`,
+      body: `Olá! O filme "${data.title}" está estreando hoje!`,
+      sendAt: releaseDate,
+    })
 
     return { movie }
   }

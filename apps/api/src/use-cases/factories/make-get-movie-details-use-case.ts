@@ -1,4 +1,4 @@
-import { PrismaMoviesRepository } from '@/repositories/prisma/prisma-movies-repository'
+import { PrismaMoviesRepository } from '@/repositories/prisma/movies-repository'
 import { GetMovieDetailsUseCase } from '../movie/get-details'
 
 export function makeGetMovieDetailsUseCase() {

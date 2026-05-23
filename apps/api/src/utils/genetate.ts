@@ -7,7 +7,7 @@ export function generateSlug(title: string, releaseDate: Date): string {
     .toLowerCase()
     .replace(/[^\w\s-]/g, '')
     .replace(/\s+/g, '-')
-    .replace(/--+/g, '-') // Evita múltiplos hífens seguidos
+    .replace(/--+/g, '-')
     .trim()
 
   return `${slug}-${year}`
