@@ -1,27 +1,128 @@
 @import 'tailwindcss';
 
-:root {
-  --background: #fdfdfe;
-  --surface: #f1f1f3;
-  --border: #e4e2e4;
-  --foreground: #1a1b1f;
-  --muted: #70727a;
+/* 🎨 1. REGISTRO DE CORES NO TAILWIND V4 */
+@theme {
+  /* Escala Mauve (Cinza com fundo roxo do Figma) */
+  --color-mauve-1: var(--mauve-1);
+  --color-mauve-2: var(--mauve-2);
+  --color-mauve-3: var(--mauve-3);
+  --color-mauve-4: var(--mauve-4);
+  --color-mauve-5: var(--mauve-5);
+  --color-mauve-6: var(--mauve-6);
+  --color-mauve-7: var(--mauve-7);
+  --color-mauve-8: var(--mauve-8);
+  --color-mauve-9: var(--mauve-9);
+  --color-mauve-10: var(--mauve-10);
+  --color-mauve-11: var(--mauve-11);
+  --color-mauve-12: var(--mauve-12);
 
-  --brand: #7e42d4;
-  --brand-hover: #6e36b8;
-  --brand-low: #f4f0fa;
+  /* Escala Purple (Roxo vibrante do Figma) */
+  --color-purple-1: var(--purple-1);
+  --color-purple-2: var(--purple-2);
+  --color-purple-3: var(--purple-3);
+  --color-purple-4: var(--purple-4);
+  --color-purple-5: var(--purple-5);
+  --color-purple-6: var(--purple-6);
+  --color-purple-7: var(--purple-7);
+  --color-purple-8: var(--purple-8);
+  --color-purple-9: var(--purple-9);
+  --color-purple-10: var(--purple-10);
+  --color-purple-11: var(--purple-11);
+  --color-purple-12: var(--purple-12);
+
+  /* Nomes Semânticos (atalhos para facilitar o código) */
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-low: var(--brand-low);
 }
 
-.dark {
-  --background: #111113;
-  --surface: #19191d;
-  --border: #2c2e30;
-  --foreground: #ecedee;
-  --muted: #a7a9b0;
+/* ☀️ TEMA CLARO (Light Mode) */
+:root {
+  /* Paleta Mauve Clara (1-12) */
+  --mauve-1: #fdfcfd;
+  --mauve-2: #f9f8f9;
+  --mauve-3: #f4f2f4;
+  --mauve-4: #eeecee;
+  --mauve-5: #e9e8ea;
+  --mauve-6: #e4e2e4;
+  --mauve-7: #dcdbdc;
+  --mauve-8: #c8c7cb;
+  --mauve-9: #908e96;
+  --mauve-10: #86848d;
+  --mauve-11: #65636d;
+  --mauve-12: #212026;
 
-  --brand: #8c5cd9;
-  --brand-hover: #7b4fbf;
-  --brand-low: #2f1d53;
+  /* Paleta Purple Clara (1-12) */
+  --purple-1: #fdfcfe;
+  --purple-2: #fbfaff;
+  --purple-3: #f5f2ff;
+  --purple-4: #ede9fe;
+  --purple-5: #e4defc;
+  --purple-6: #d7cff9;
+  --purple-7: #c4b8f3;
+  --purple-8: #aa99ec;
+  --purple-9: #8e4ec6;
+  --purple-10: #8445bc;
+  --purple-11: #793aaf;
+  --purple-12: #2b0e44;
+
+  /* Atribuições do Layout Claro */
+  --background: var(--mauve-1);
+  --surface: var(--mauve-3);
+  --border: var(--mauve-6);
+  --foreground: var(--mauve-12);
+  --muted: var(--mauve-11);
+
+  --brand: #201526;
+  --brand-hover: var(--purple-10);
+  --brand-low: var(--purple-3);
+}
+
+/* 🌗 TEMA ESCURO (Dark Mode - Padrão do seu App) */
+.dark {
+  /* Paleta Mauve Escura (1-12) */
+  --mauve-1: #121113;
+  --mauve-2: #1a191b;
+  --mauve-3: #232225;
+  --mauve-4: #2b2a2d;
+  --mauve-5: #323135;
+  --mauve-6: #3c393f;
+  --mauve-7: #49474e;
+  --mauve-8: #605e65;
+  --mauve-9: #6f6d78;
+  --mauve-10: #7d7b86;
+  --mauve-11: #b5b3bc;
+  --mauve-12: #eeeeec;
+
+  /* Paleta Purple Escura (1-12) */
+  --purple-1: #151119;
+  --purple-2: #1a1523;
+  --purple-3: #221a36;
+  --purple-4: #2b1f46;
+  --purple-5: #342556;
+  --purple-6: #3e2a6a;
+  --purple-7: #4d3388;
+  --purple-8: #603ebc;
+  --purple-9: #8e4ec6;
+  --purple-10: #9d5bd2;
+  --purple-11: #bf7af0;
+  --purple-12: #e3c7ff;
+
+  /* Atribuições do Layout Escuro */
+  --background: var(--mauve-1);
+  --surface: var(--mauve-3);
+  --border: var(--mauve-6);
+  --foreground: var(--mauve-12);
+  --muted: var(--mauve-11);
+
+  --brand: var(--purple-9);
+  --brand-hover: var(--purple-10);
+  --brand-low: var(--purple-3);
 }
 
 body {
@@ -32,12 +133,12 @@ body {
     color 0.2s ease;
 }
 
+/* 🟣 BOTÃO PRIMÁRIO (Fundo Roxo Sólido) */
 @utility btn-primary {
-  w-full:;
   height: 2.75rem;
   background-color: var(--brand);
   color: #fff;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: 0.375rem;
   display: flex;
   align-items: center;
@@ -45,24 +146,25 @@ body {
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: var(--brand-hover);
+    background-color: var(--brand-hover); /* Roxo um tom mais claro */
   }
   &:active {
-    transform: scale(0.99);
+    background-color: var(--purple-11); /* Roxo mais escuro ao clicar */
+    transform: scale(0.98);
   }
   &:disabled {
-    opacity: 0.5;
+    background-color: var(--mauve-5); /* Fundo cinza */
+    color: var(--mauve-9); /* Texto cinza escuro */
     pointer-events: none;
   }
 }
 
+/* 💜 BOTÃO SECUNDÁRIO (Fundo Transparente Tintado) */
 @utility btn-secondary {
-  w-full:;
   height: 2.75rem;
-  background-color: transparent;
-  border: 1px solid var(--brand);
-  color: var(--brand);
-  font-weight: 500;
+  background-color: var(--brand-low); /* Roxo super escuro/suave */
+  color: var(--purple-11); /* Texto roxo claro para contraste */
+  font-weight: 600;
   border-radius: 0.375rem;
   display: flex;
   align-items: center;
@@ -70,15 +172,22 @@ body {
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: var(--brand-low);
+    background-color: var(--purple-4); /* Fundo levemente mais claro */
   }
   &:active {
-    transform: scale(0.99);
+    background-color: var(--purple-5); /* Fundo um pouco mais claro ao clicar */
+    transform: scale(0.98);
+  }
+  &:disabled {
+    background-color: var(--mauve-3); /* Fundo cinza super escuro */
+    color: var(--mauve-8); /* Texto cinza */
+    pointer-events: none;
   }
 }
 
+/* 📝 INPUT DE TEXTO */
 @utility input-text {
-  w-full:;
+  width: 100%;
   height: 2.75rem;
   background-color: var(--surface);
   border: 1px solid var(--border);
@@ -89,10 +198,10 @@ body {
   transition: border-color 0.2s ease;
 
   &::placeholder {
-    color: var(--muted);
+    color: var(--mauve-9);
   }
   &:focus {
     outline: none;
-    border-color: var(--brand);
+    border-color: var(--brand); /* Borda roxa do Figma no Focus */
   }
 }

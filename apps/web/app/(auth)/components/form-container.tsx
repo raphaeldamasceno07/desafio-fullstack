@@ -1,15 +1,21 @@
-import { ReactNode } from 'react'
+'use client'
+
+import { ReactNode, FormEvent } from 'react'
 
 interface FormContainerProps {
   children: ReactNode
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void
 }
 
-export function FormContainer({ children }: FormContainerProps) {
+export function FormContainer({ children, onSubmit }: FormContainerProps) {
   return (
-    <div className="min-h-screen bg-background flex flex-col justify-center px-4 py-12 sm:px-6 lg:px-8 animate-fade-in">
-      <div className="w-full max-w-md mx-auto space-y-8 bg-surface p-6 rounded-lg border border-border shadow-lg md:p-8">
+    <main className="flex flex-1 items-center justify-center px-6 py-10">
+      <form
+        onSubmit={onSubmit}
+        className="w-full max-w-md rounded-md border border-border/60 bg-surface/80 p-6 shadow-2xl backdrop-blur-md space-y-4"
+      >
         {children}
-      </div>
-    </div>
+      </form>
+    </main>
   )
 }

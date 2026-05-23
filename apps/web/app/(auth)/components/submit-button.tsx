@@ -1,25 +1,23 @@
-import { ComponentProps } from 'react'
+import { ComponentProps, ReactNode } from 'react'
 
 interface SubmitButtonProps extends ComponentProps<'button'> {
-  isLoading: boolean
-  loadingLabel?: string
-  label: string
+  isLoading?: boolean
+  children: ReactNode
 }
 
 export function SubmitButton({
   isLoading,
-  label,
-  loadingLabel = 'Carregando...',
+  children,
   ...props
 }: SubmitButtonProps) {
   return (
-    <button
+    <button 
       type="submit"
-      disabled={isLoading}
-      className="btn-primary"
+      disabled={isLoading || props.disabled}
+      className="flex h-10 items-center justify-center rounded-sm bg-brand px-6 text-sm font-semibold text-white transition-all hover:bg-brand-hover active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
       {...props}
     >
-      {isLoading ? loadingLabel : label}
+      {children}
     </button>
   )
 }

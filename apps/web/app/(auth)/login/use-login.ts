@@ -1,13 +1,14 @@
-import { useAuth } from '@/contexts/AuthContext'
-import { api } from '@/services/api'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { LoginFormData, loginSchema } from './schema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useAuth } from '@/contexts/AuthContext'
+import { api } from '@/services/api'
+import { loginSchema, LoginFormData } from './schema'
 
 export function useLogin() {
   const { login } = useAuth()
-  const [apiError, setApiError] = useState
+  const [apiError, setApiError] = useState<string | null>(null)
+
   const {
     register,
     handleSubmit,
@@ -16,10 +17,9 @@ export function useLogin() {
     resolver: zodResolver(loginSchema),
   })
 
-  async function handleLogin(data: LoginFormData) {
+  const handleLoginSubmit = async (data: LoginFormData) => {
+    setApiError(null) 
     try {
-      setApiError(null)
-
       const response = await api.post('/sessions', {
         email: data.email,
         password: data.password,
@@ -27,25 +27,18 @@ export function useLogin() {
 
       const { token, user } = response.data
 
-      login(token, user)
-    } catch (err: any) {
-      console.error('Erro na autenticação:', err)
-
-      if (err.response?.status === 400 || err.response?.status === 401) {
-        setApiError('E-mail ou senha incorretos.')
-      } else {
-        setApiError(
-          'Desculpe, ocorreu um erro interno no servidor. Tente novamente.',
-        )
-      }
+      await login(token, user)
+      
+    } catch (error) {
+      setApiError('E-mail ou senha incorretos. Tente novamente.')
     }
   }
 
   return {
     register,
-    handleSubmit: handleSubmit(handleLogin),
     errors,
     isSubmitting,
     apiError,
+    onSubmit: handleSubmit(handleLoginSubmit)
   }
 }

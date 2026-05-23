@@ -13,20 +13,18 @@ export function ThemeToggle() {
   }, [])
 
   if (!mounted) {
-    return <div className="w-9 h-9" />
+    return <div className="w-10 h-10" />
   }
 
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="p-2 rounded-md hover:bg-surface border border-transparent hover:border-border text-muted hover:text-foreground transition-all active:scale-95"
-      aria-label="Alternar tema"
-    >
+      className="grid h-9 w-9 place-items-center rounded-sm border border-border bg-(--brand-low) text-foreground/80 transition hover:bg-secondary">
       {theme === 'dark' ? (
-        <Sun className="w-5 h-5 text-brand" />
+        <Sun className="w-5 h-5" fill="white" />
       ) : (
         <Moon className="w-5 h-5 text-brand" />
       )}
-    </button>
+    </button> 
   )
 }

@@ -1,13 +1,14 @@
+import { AlertCircle } from 'lucide-react'
+
 interface ErrorMessageProps {
-  message: string | null
+  message: string
 }
 
 export function ErrorMessage({ message }: ErrorMessageProps) {
-  if (!message) return null
-
   return (
-    <div className="bg-brand-low border border-brand/30 text-brand text-sm px-4 py-3 rounded-md font-medium text-center animate-fade-in">
+    <span className="flex items-center gap-1.5 text-xs font-medium text-red-500 dark:text-red-400">
+      <AlertCircle className="h-3.5 w-3.5" />
       {message}
-    </div>
+    </span>
   )
 }
