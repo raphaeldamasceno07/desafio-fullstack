@@ -13,9 +13,7 @@ export function Providers({ children }: { children: ReactNode }) {
       enableColorScheme={false}
       disableTransitionOnChange
     >
-      <AuthProvider>
-        {children}
-      </AuthProvider>
+      <AuthProvider>{children}</AuthProvider>
     </ThemeProvider>
   )
 }

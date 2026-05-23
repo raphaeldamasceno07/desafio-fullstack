@@ -5,8 +5,9 @@ export function middleware(request: NextRequest) {
   // 💡 Busca o token nos cookies (ajuste o nome 'movie-challenge.token' se preferir outro)
   const token = request.cookies.get('movie-challenge.token')?.value
 
-  const isAuthPage = request.nextUrl.pathname.startsWith('/login') || 
-                     request.nextUrl.pathname.startsWith('/register')
+  const isAuthPage =
+    request.nextUrl.pathname.startsWith('/login') ||
+    request.nextUrl.pathname.startsWith('/register')
 
   // 1. Se o usuário NÃO está logado e tenta acessar o dashboard ou rotas de filmes
   if (!token && !isAuthPage) {
@@ -26,6 +27,6 @@ export const config = {
   matcher: [
     '/movies/:path*', // Protege a listagem, criação, edição e detalhes
     '/login',
-    '/register'
+    '/register',
   ],
 }
