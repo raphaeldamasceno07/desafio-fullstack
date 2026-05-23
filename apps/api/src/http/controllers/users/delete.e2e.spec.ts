@@ -26,20 +26,20 @@ describe('Delete User Controller', () => {
     const { token } = await createAndAuthenticateUser(app, user)
 
     const response = await request(app.server)
-      .delete('/me')
+      .delete('/api/me')
       .set('Authorization', `Bearer ${token}`)
 
     expect(response.status).toBe(204)
 
     const profileResponse = await request(app.server)
-      .get('/me')
+      .get('/api/me')
       .set('Authorization', `Bearer ${token}`)
 
     expect(profileResponse.status).toBe(404)
   })
 
   it('should not be able to delete profile without authentication', async () => {
-    const response = await request(app.server).delete('/me')
+    const response = await request(app.server).delete('/api/me')
 
     expect(response.status).toBe(401)
   })

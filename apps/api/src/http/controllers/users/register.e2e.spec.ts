@@ -22,7 +22,7 @@ describe('Register (e2e)', () => {
     const email = 'jane.doe@example.com'
     const password = 'password123'
 
-    const response = await request(app.server).post('/users').send({
+    const response = await request(app.server).post('/api/users').send({
       name: 'Jane Doe',
       email,
       password,
@@ -49,13 +49,13 @@ describe('Register (e2e)', () => {
   it('should return 409 when trying to register with an existing email', async () => {
     const email = 'duplicate@example.com'
 
-    await request(app.server).post('/users').send({
+    await request(app.server).post('/api/users').send({
       name: 'User 1',
       email,
       password: 'password123',
     })
 
-    const response = await request(app.server).post('/users').send({
+    const response = await request(app.server).post('/api/users').send({
       name: 'User 2',
       email,
       password: 'password123',
@@ -66,7 +66,7 @@ describe('Register (e2e)', () => {
   })
 
   it('should return 400 when trying to register with invalid data', async () => {
-    const response = await request(app.server).post('/users').send({
+    const response = await request(app.server).post('/api/users').send({
       name: 'User 1',
       email: 'invalid-email',
       password: 'password123',

@@ -1,8 +1,8 @@
-import { app } from '@/app'
 import {
   registerBodySchema,
   updateUserBodySchema,
 } from '@movie-challenge/core-types'
+import { FastifyInstance } from 'fastify'
 import z from 'zod'
 import { remove } from '../controllers/users/delete'
 import { profile } from '../controllers/users/profile'
@@ -10,7 +10,7 @@ import { register } from '../controllers/users/register'
 import { update } from '../controllers/users/update'
 import { verifyJWT } from '../middlewares/verify-jwt'
 
-export async function userRoutes() {
+export async function userRoutes(app: FastifyInstance) {
   app.post(
     '/users',
     {

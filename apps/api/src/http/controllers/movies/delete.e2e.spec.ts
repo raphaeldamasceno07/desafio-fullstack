@@ -35,7 +35,7 @@ describe('Delete Movie (E2E)', () => {
     })
 
     const response = await request(app.server)
-      .delete(`/movies/${movie.id}`)
+      .delete(`/api/movies/${movie.id}`)
       .set('Authorization', `Bearer ${token}`)
 
     expect(response.statusCode).toEqual(204)
@@ -81,7 +81,7 @@ describe('Delete Movie (E2E)', () => {
     })
 
     const response = await request(app.server)
-      .delete(`/movies/${movie.id}`)
+      .delete(`/api/movies/${movie.id}`)
       .set('Authorization', `Bearer ${hackerToken}`)
 
     expect(response.statusCode).toEqual(403)

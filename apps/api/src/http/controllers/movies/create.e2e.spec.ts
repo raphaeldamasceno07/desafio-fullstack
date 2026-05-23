@@ -59,7 +59,7 @@ describe('Create Movie (E2E)', () => {
     const originalTitle = `Original E2E Movie - ${uniqueId}`
 
     const response = await request(app.server)
-      .post('/movies')
+      .post('/api/movies')
       .set('Authorization', `Bearer ${token}`)
       .field('title', movieTitle)
       .field('original_title', originalTitle)
@@ -109,7 +109,7 @@ describe('Create Movie (E2E)', () => {
     const originalTitle = `Avatar 5 Original - ${uniqueId}`
 
     const response = await request(app.server)
-      .post('/movies')
+      .post('/api/movies')
       .set('Authorization', `Bearer ${token}`)
       .field('title', movieTitle)
       .field('original_title', originalTitle)

@@ -18,7 +18,7 @@ describe('Profile Controller', () => {
     const { token } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
-      .get('/me')
+      .get('/api/me')
       .set('Authorization', `Bearer ${token}`)
       .send()
 

@@ -23,7 +23,7 @@ describe('Update User Controller', () => {
     const { token } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
-      .patch('/me')
+      .patch('/api/me')
       .set('Authorization', `Bearer ${token}`)
       .send({
         name: 'Jane Doe',
@@ -39,7 +39,7 @@ describe('Update User Controller', () => {
     const { token } = await createAndAuthenticateUser(app)
 
     const response = await request(app.server)
-      .patch('/me')
+      .patch('/api/me')
       .set('Authorization', `Bearer ${token}`)
       .send({
         password: 'new_secret_password_123',
@@ -50,7 +50,7 @@ describe('Update User Controller', () => {
   })
 
   it('should not be able to update profile without authentication', async () => {
-    const response = await request(app.server).patch('/me').send({
+    const response = await request(app.server).patch('/api/me').send({
       name: 'Jane Doe',
     })
 

@@ -33,7 +33,7 @@ export async function createAndAuthenticateUser(
     },
   })
 
-  const authResponse = await request(app.server).post('/sessions').send({
+  const authResponse = await request(app.server).post('/api/sessions').send({
     email,
     password,
   })

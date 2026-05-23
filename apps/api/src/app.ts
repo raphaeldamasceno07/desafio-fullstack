@@ -65,9 +65,14 @@ app.register(scalarApiReference, {
   },
 })
 
-app.register(userRoutes)
-app.register(sessionRoutes)
-app.register(movieRoutes)
+app.register(
+  async api => {
+    api.register(userRoutes)
+    api.register(sessionRoutes)
+    api.register(movieRoutes)
+  },
+  { prefix: '/api' },
+)
 
 app.setErrorHandler((error, request, reply) => {
   if (error instanceof ZodError) {

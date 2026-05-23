@@ -35,7 +35,7 @@ describe('Authenticate (e2e)', () => {
       },
     })
 
-    const response = await request(app.server).post('/sessions').send({
+    const response = await request(app.server).post('/api/sessions').send({
       email: user.email,
       password: user.password,
     })
@@ -47,7 +47,7 @@ describe('Authenticate (e2e)', () => {
   })
 
   it('should return 400 when password is missing', async () => {
-    const response = await request(app.server).post('/sessions').send({
+    const response = await request(app.server).post('/api/sessions').send({
       email: user.email,
     })
 

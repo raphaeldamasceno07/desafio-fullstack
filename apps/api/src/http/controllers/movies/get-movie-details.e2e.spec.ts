@@ -36,7 +36,7 @@ describe('Get Movie Details (E2E)', () => {
     })
 
     const response = await request(app.server)
-      .get(`/movies/slug/${targetSlug}`)
+      .get(`/api/movies/slug/${targetSlug}`)
       .set('Authorization', `Bearer ${token}`)
 
     expect(response.statusCode).toEqual(200)

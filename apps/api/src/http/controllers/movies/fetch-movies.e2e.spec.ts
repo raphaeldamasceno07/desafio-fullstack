@@ -69,7 +69,7 @@ describe('Fetch Movies (E2E)', () => {
     })
 
     const response = await request(app.server)
-      .get('/movies')
+      .get('/api/movies')
       .set('Authorization', `Bearer ${token}`)
       .query({
         search: 'matrix',
@@ -87,7 +87,9 @@ describe('Fetch Movies (E2E)', () => {
   })
 
   it('should not be able to fetch movies without an authentication token', async () => {
-    const response = await request(app.server).get('/movies').query({ page: 1 })
+    const response = await request(app.server)
+      .get('/api/movies')
+      .query({ page: 1 })
 
     expect(response.statusCode).toEqual(401)
   })

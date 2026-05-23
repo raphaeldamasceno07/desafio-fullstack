@@ -30,7 +30,7 @@ describe('Update Movie (E2E)', () => {
 
     const { token, id } = await createAndAuthenticateUser(app, ownerData as any)
 
-    await request(app.server).post('/sessions').send({
+    await request(app.server).post('/api/sessions').send({
       email: ownerData.email,
       password: '123456',
     })
@@ -50,7 +50,7 @@ describe('Update Movie (E2E)', () => {
     })
 
     const response = await request(app.server)
-      .put(`/movies/${movie.id}`)
+      .put(`/api/movies/${movie.id}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         title: 'Filme Atualizado E2E',
@@ -93,7 +93,7 @@ describe('Update Movie (E2E)', () => {
     const { token } = await createAndAuthenticateUser(app, data as any)
 
     const response = await request(app.server)
-      .put(`/movies/${movie.id}`)
+      .put(`/api/movies/${movie.id}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         title: 'Hackeado',
