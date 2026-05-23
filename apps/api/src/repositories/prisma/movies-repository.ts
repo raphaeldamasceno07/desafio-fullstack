@@ -8,7 +8,6 @@ import {
 
 export class PrismaMoviesRepository implements MovieRepository {
   async create(data: CreateMovieRepositoryData): Promise<Movie> {
-    // 1. Criamos o objeto de input tipado estritamente para o Prisma
     const movieDataInput: Prisma.MovieCreateInput = {
       title: data.title,
       original_title: data.original_title,
@@ -113,5 +112,11 @@ export class PrismaMoviesRepository implements MovieRepository {
       data: movie,
     })
     return updateMovie
+  }
+
+  async delete(movieId: string): Promise<void> {
+    await prisma.movie.delete({
+      where: { id: movieId },
+    })
   }
 }

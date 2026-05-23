@@ -20,4 +20,5 @@ export interface MovieRepository {
   findBySlug(slug: string): Promise<Movie | null>
   findManyByParams(params: FindManyMoviesParams): Promise<Movie[]>
   save(movie: Movie): Promise<Movie>
+  delete(id: string): Promise<void>
 }

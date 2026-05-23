@@ -8,7 +8,7 @@ import {
 export class InMemoryMoviesRepository implements MovieRepository {
   public items: Movie[] = []
 
-  async create(data: CreateMovieRepositoryData): Promise<Movie> {
+  async create(data: CreateMovieRepositoryData) {
     const newMovie: Movie = {
       id: crypto.randomUUID(),
       title: data.title,
@@ -29,12 +29,12 @@ export class InMemoryMoviesRepository implements MovieRepository {
     return newMovie
   }
 
-  async findById(movieId: string): Promise<Movie | null> {
+  async findById(movieId: string) {
     const movie = this.items.find(item => item.id === movieId)
     return movie ?? null
   }
 
-  async findBySlug(slug: string): Promise<Movie | null> {
+  async findBySlug(slug: string) {
     const movie = this.items.find(item => item.slug === slug)
     return movie ?? null
   }
@@ -46,7 +46,7 @@ export class InMemoryMoviesRepository implements MovieRepository {
     releaseDateStart,
     releaseDateEnd,
     page,
-  }: FindManyMoviesParams): Promise<Movie[]> {
+  }: FindManyMoviesParams) {
     let filteredMovies = this.items
 
     if (search) {
@@ -89,7 +89,7 @@ export class InMemoryMoviesRepository implements MovieRepository {
     return filteredMovies.slice(startIndex, endIndex)
   }
 
-  async save(movie: Movie): Promise<Movie> {
+  async save(movie: Movie) {
     const itemIndex = this.items.findIndex(item => item.id === movie.id)
 
     if (itemIndex >= 0) {
@@ -97,5 +97,12 @@ export class InMemoryMoviesRepository implements MovieRepository {
     }
 
     return movie
+  }
+
+  async delete(id: string) {
+    const itemIndex = this.items.findIndex(item => item.id === id)
+    if (itemIndex >= 0) {
+      this.items.splice(itemIndex, 1)
+    }
   }
 }
