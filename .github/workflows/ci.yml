@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main, develop]
 
+paths:
+  - 'apps/api/**'
+  - 'packages/**'
+  - '.github/workflows/**'
+
 jobs:
   lint-and-format:
     name: Lint & Format

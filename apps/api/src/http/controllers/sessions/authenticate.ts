@@ -39,5 +39,12 @@ export async function session(request: FastifyRequest, reply: FastifyReply) {
       httpOnly: true,
     })
     .status(200)
-    .send({ token })
+    .send({
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    })
 }
