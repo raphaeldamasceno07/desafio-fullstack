@@ -36,7 +36,6 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 w-full h-20 bg-black/40 backdrop-blur-sm border-b border-border z-50 px-4 md:px-10 flex items-center justify-between">
-      
       {/* LOGO */}
       <div className="flex items-center gap-3">
         <Image

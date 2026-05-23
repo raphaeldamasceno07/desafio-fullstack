@@ -31,7 +31,8 @@ app.register(fastifyMultipart, {
 })
 
 app.register(cors, {
-  origin: '*',
+  origin: 'http://localhost:3000',
+  credentials: true,
 })
 
 app.register(fastifyJwt, {

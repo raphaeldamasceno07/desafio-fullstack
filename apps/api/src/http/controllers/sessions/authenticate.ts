@@ -26,7 +26,7 @@ export async function session(request: FastifyRequest, reply: FastifyReply) {
     {
       sign: {
         sub: user.id,
-        expiresIn: '1d',
+        expiresIn: '15m',
       },
     },
   )
