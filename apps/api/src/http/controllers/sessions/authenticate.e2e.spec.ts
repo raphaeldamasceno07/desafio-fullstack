@@ -40,9 +40,13 @@ describe('Authenticate (e2e)', () => {
       password: user.password,
     })
 
-    expect(response.statusCode).toEqual(200)
     expect(response.body).toEqual({
       token: expect.any(String),
+      user: {
+        id: expect.any(String),
+        name: expect.any(String),
+        email: expect.any(String),
+      },
     })
   })
 

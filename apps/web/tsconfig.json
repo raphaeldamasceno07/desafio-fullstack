@@ -2,15 +2,9 @@
   "extends": "../../packages/ts-config/base.json",
   "compilerOptions": {
     "paths": {
-      "@/*": [
-        "./app/*"
-      ]
+      "@/*": ["./app/*"]
     },
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "noEmit": true,
     "incremental": true,
@@ -24,13 +18,6 @@
       }
     ]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

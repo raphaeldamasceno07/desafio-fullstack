@@ -16,6 +16,13 @@ export async function sessionRoutes(app: FastifyInstance) {
         response: {
           200: z.object({
             token: z.string().describe('Authentication token'),
+            user: z
+              .object({
+                id: z.string(),
+                name: z.string(),
+                email: z.string().email(),
+              })
+              .describe('Authenticated user details'),
           }),
           400: z.object({
             message: z.string().describe('Validation error'),

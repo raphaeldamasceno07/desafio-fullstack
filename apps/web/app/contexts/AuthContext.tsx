@@ -1,14 +1,8 @@
 'use client'
 
+import { api } from '@/services/api'
 import { useRouter } from 'next/navigation'
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
-import { api } from '../services/api'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 interface User {
   id: string
@@ -20,67 +14,61 @@ interface AuthContextType {
   user: User | null
   isAuthenticated: boolean
   isLoading: boolean
-  login: (token: string) => Promise<void>
+  login: (token: string, user: User) => void
   logout: () => void
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const AuthContext = createContext({} as AuthContextType)
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export function AuthProvider({ children }: any) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
-  // 🔥 FUNÇÃO CENTRAL (REUTILIZÁVEL)
-  async function fetchUser() {
-    try {
-      const response = await api.get('/me')
-      setUser(response.data)
-    } catch {
-      setUser(null)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  // 🔁 roda ao carregar app
   useEffect(() => {
-    fetchUser()
+    async function loadUser() {
+      try {
+        const res = await api.get('/me')
+        setUser(res.data)
+      } catch {
+        setUser(null)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadUser()
   }, [])
 
-  // ✅ LOGIN CORRETO
-  const login = async (token: string) => {
-    document.cookie = `movie-challenge.token=${token}; path=/; max-age=604800; SameSite=Strict`
+  const login = (token: string, user: User) => {
+    document.cookie = `movie-challenge.token=${token}; path=/`
 
-    // 🔥 busca usuário imediatamente
-    await fetchUser()
+    setUser(user)
 
-    // 🔥 força atualização da UI
     router.push('/movies')
-    router.refresh()
   }
 
   const logout = () => {
-    document.cookie =
-      'movie-challenge.token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    document.cookie = 'movie-challenge.token=; path=/; expires=Thu, 01 Jan 1970'
 
     setUser(null)
 
     router.push('/login')
-    router.refresh()
   }
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated: !!user, isLoading, login, logout }}
+      value={{
+        user,
+        isAuthenticated: !!user,
+        isLoading,
+        login,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
   )
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) throw new Error('useAuth must be used within AuthProvider')
-  return context
-}
+export const useAuth = () => useContext(AuthContext)

@@ -19,12 +19,13 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="grid h-9 w-9 place-items-center rounded-sm border border-border bg-(--brand-low) text-foreground/80 transition hover:bg-secondary">
+      className="grid h-9 w-9 place-items-center rounded-sm border border-border bg-(--brand-low) text-foreground/80 transition hover:bg-secondary"
+    >
       {theme === 'dark' ? (
         <Sun className="w-5 h-5" fill="white" />
       ) : (
         <Moon className="w-5 h-5 text-brand" />
       )}
-    </button> 
+    </button>
   )
 }

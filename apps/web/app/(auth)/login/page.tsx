@@ -1,18 +1,17 @@
 'use client'
 
 import Link from 'next/link'
+import { ErrorMessage } from '../components/error-message'
+import { FormContainer } from '../components/form-container'
 import { Input } from '../components/input'
 import { SubmitButton } from '../components/submit-button'
-import { ErrorMessage } from '../components/error-message'
 import { useLogin } from './use-login'
-import { FormContainer } from '../components/form-container.tsx'
 
 export default function LoginPage() {
   const { register, errors, isSubmitting, apiError, onSubmit } = useLogin()
 
   return (
     <FormContainer onSubmit={onSubmit}>
-      
       {apiError && (
         <div className="rounded-sm bg-red-500/10 p-3 border border-red-500/20">
           <ErrorMessage message={apiError} />
@@ -47,7 +46,6 @@ export default function LoginPage() {
           {isSubmitting ? 'Entrando...' : 'Entrar'}
         </SubmitButton>
       </div>
-
     </FormContainer>
   )
 }

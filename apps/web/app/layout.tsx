@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import cinemaBg from '../public/e1df294fbedd333816e64765ef61e876fa180ca3.png'
-import { Header } from './components/header'
 import { Footer } from './components/footer'
+import { Header } from './components/header'
 import { Providers } from './components/providers'
 import './globals.css'
 
@@ -33,7 +33,7 @@ export default function RootLayout({
           <div className="relative z-20 min-h-screen w-full flex flex-col pt-20">
             {children}
           </div>
-          <Footer/>
+          <Footer />
         </Providers>
       </body>
     </html>

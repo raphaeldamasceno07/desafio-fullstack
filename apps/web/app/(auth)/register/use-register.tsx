@@ -3,9 +3,9 @@ import { api } from '@/services/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { LoginFormData, loginSchema } from './schema'
+import { RegisterFormData, registerFormSchema } from './schema'
 
-export function useLogin() {
+export function useRegister() {
   const { login } = useAuth()
   const [apiError, setApiError] = useState<string | null>(null)
 
@@ -13,23 +13,26 @@ export function useLogin() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerFormSchema),
   })
 
-  const handleLoginSubmit = async (data: LoginFormData) => {
+  const handleRegisterSubmit = async (data: RegisterFormData) => {
     setApiError(null)
     try {
-      const response = await api.post('/sessions', {
+      const response = await api.post('/users', {
+        name: data.name,
         email: data.email,
         password: data.password,
       })
 
-      const { token, user } = response.data
+      const { token } = response.data
 
-      await login(token, user)
+      await login(token)
     } catch (error) {
-      setApiError('E-mail ou senha incorretos. Tente novamente.')
+      setApiError(
+        'Falha ao realizar cadastro. Verifique os dados ou tente outro e-mail.',
+      )
     }
   }
 
@@ -38,6 +41,6 @@ export function useLogin() {
     errors,
     isSubmitting,
     apiError,
-    onSubmit: handleSubmit(handleLoginSubmit),
+    onSubmit: handleSubmit(handleRegisterSubmit),
   }
 }

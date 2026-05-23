@@ -5,6 +5,7 @@ import { AuthenticationUseCase } from '../session/authenticate'
 export function makeAuthenticateUseCase() {
   const userRepository = new PrismaUsersRepository()
   const hashProvider = new BCryptHashProvider()
+
   const authenticateUseCase = new AuthenticationUseCase(
     userRepository,
     hashProvider,
