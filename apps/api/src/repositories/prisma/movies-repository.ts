@@ -8,7 +8,6 @@ import {
 
 export class PrismaMoviesRepository implements MovieRepository {
   async create(data: CreateMovieRepositoryData): Promise<Movie> {
-    // 1. Criamos o objeto de input tipado estritamente para o Prisma
     const movieDataInput: Prisma.MovieCreateInput = {
       title: data.title,
       original_title: data.original_title,
@@ -18,14 +17,22 @@ export class PrismaMoviesRepository implements MovieRepository {
       genre: data.genre,
       release_date: data.release_date,
       slug: data.slug,
-      poster_url: data.poster_url, // 👈 O TypeScript agora vai correlcionar perfeitamente com o schema.prisma
+      poster_url: data.poster_url,
       user: {
-        connect: { id: data.user_id }, // Usar o connect é a boa prática da Clean Architecture com Prisma para chaves estrangeiras
+        connect: { id: data.user_id },
       },
     }
 
     const movie = await prisma.movie.create({
       data: movieDataInput,
+    })
+
+    return movie
+  }
+
+  async findById(movieId: string): Promise<Movie | null> {
+    const movie = await prisma.movie.findUnique({
+      where: { id: movieId },
     })
 
     return movie
@@ -97,5 +104,19 @@ export class PrismaMoviesRepository implements MovieRepository {
     })
 
     return movies
+  }
+
+  async save(movie: Movie): Promise<Movie> {
+    const updateMovie = await prisma.movie.update({
+      where: { id: movie.id },
+      data: movie,
+    })
+    return updateMovie
+  }
+
+  async delete(movieId: string): Promise<void> {
+    await prisma.movie.delete({
+      where: { id: movieId },
+    })
   }
 }

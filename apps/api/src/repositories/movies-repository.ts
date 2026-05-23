@@ -16,6 +16,9 @@ export type CreateMovieRepositoryData = Omit<
 
 export interface MovieRepository {
   create(data: CreateMovieRepositoryData): Promise<Movie>
+  findById(movieId: string): Promise<Movie | null>
   findBySlug(slug: string): Promise<Movie | null>
   findManyByParams(params: FindManyMoviesParams): Promise<Movie[]>
+  save(movie: Movie): Promise<Movie>
+  delete(id: string): Promise<void>
 }

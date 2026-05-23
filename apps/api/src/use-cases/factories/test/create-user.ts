@@ -1,18 +1,15 @@
 import { prisma } from '@/lib/prisma'
 import { BCryptHashProvider } from '@/providers/HashProvider/bcrypt-hash-provider'
 import { Prisma } from '@prisma/client'
-import { FastifyInstance } from 'fastify'
 import { randomUUID } from 'node:crypto'
-import request from 'supertest'
 
 export const defaultUser = {
-  name: 'Raphael Damasceno',
-  email: `rdamasceno-${randomUUID()}@example.com`,
+  name: 'John Doe',
+  email: `johndoe-${randomUUID()}@example.com`,
   password: 'password123',
 }
 
-export async function createAndAuthenticateUser(
-  app: FastifyInstance,
+export async function createUser(
   customData?: Partial<Prisma.UserCreateInput> & { password?: string },
 ) {
   const hashProvider = new BCryptHashProvider()
@@ -25,7 +22,7 @@ export async function createAndAuthenticateUser(
     ? customData.password_hash
     : await hashProvider.generateHash(password)
 
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       name,
       email,
@@ -33,19 +30,7 @@ export async function createAndAuthenticateUser(
     },
   })
 
-  const authResponse = await request(app.server).post('/sessions').send({
-    email,
-    password,
-  })
-
-  const { token } = authResponse.body
-
-  const user = await prisma.user.findUniqueOrThrow({
-    where: { email },
-  })
-
   return {
-    token,
-    id: user.id,
+    user,
   }
 }

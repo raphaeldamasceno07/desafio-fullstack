@@ -29,8 +29,6 @@ describe('Get Movie Details Use Case', () => {
       slug: 'iron-man-2008',
     })
 
-    console.log(movie.slug)
-
     expect(movie.id).toEqual(expect.any(String))
     expect(movie.title).toEqual('Homem de Ferro')
     expect(movie.original_title).toEqual('Iron Man')

@@ -57,3 +57,16 @@ export interface MovieResponse {
 export interface CreateMovieResponse {
   movie: MovieResponse
 }
+
+export const movieParamsSchema = z.object({
+  id: z.string().uuid(),
+})
+
+export const updateMovieBodySchema = z.object({
+  title: z.string(),
+  original_title: z.string(),
+  description: z.string(),
+  duration: z.coerce.number(),
+  budget: z.coerce.number(),
+  genre: z.string(),
+})

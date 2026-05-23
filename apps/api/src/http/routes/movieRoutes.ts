@@ -1,12 +1,16 @@
 import {
   createMovieBodySchema,
   fetchMoviesQuerySchema,
+  movieParamsSchema,
+  updateMovieBodySchema,
 } from '@movie-challenge/core-types'
 import { FastifyInstance } from 'fastify'
 import z from 'zod'
 import { createMovie } from '../controllers/movies/create'
+import { deleteMovie } from '../controllers/movies/delete'
 import { fetchMovies } from '../controllers/movies/fetch-movies'
 import { getMovieDetails } from '../controllers/movies/get-movie-details'
+import { updateMovie } from '../controllers/movies/update-movie'
 import { verifyJWT } from '../middlewares/verify-jwt'
 
 export async function movieRoutes(app: FastifyInstance) {
@@ -77,5 +81,31 @@ export async function movieRoutes(app: FastifyInstance) {
       },
     },
     getMovieDetails,
+  )
+
+  app.put(
+    '/movies/:id',
+    {
+      schema: {
+        tags: ['Movies'],
+        summary: 'Update a movie',
+        description: 'Allows the creator of the movie to update its details.',
+        params: movieParamsSchema,
+        body: updateMovieBodySchema,
+      },
+    },
+    updateMovie,
+  )
+
+  app.delete(
+    '/movies/:id',
+    {
+      schema: {
+        tags: ['Movies'],
+        summary: 'Delete a movie',
+        params: z.object({ id: z.string().uuid() }),
+      },
+    },
+    deleteMovie,
   )
 }
