@@ -12,6 +12,7 @@ export function Providers({ children }: { children: ReactNode }) {
       enableSystem={false}
       enableColorScheme={false}
       disableTransitionOnChange
+      enableScript={false}
     >
       <AuthProvider>{children}</AuthProvider>
     </ThemeProvider>
