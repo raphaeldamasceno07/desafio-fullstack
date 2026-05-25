@@ -1,137 +1,182 @@
-# Desafio Fullstack - Cubos Tecnologia
+# Movie Challenge
 
-## 1. Objetivo
+[![Node.js](https://img.shields.io/badge/Node.js-18.x-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Fastify](https://img.shields.io/badge/Fastify-5.8.5-00d6ff?logo=fastify&logoColor=white)](https://www.fastify.io/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.2.6-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-latest-316192?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-7.8.0-0C344B?logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-blue?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Vitest](https://img.shields.io/badge/Vitest-4.x-0D4C92?logo=vitest&logoColor=white)](https://vitest.dev/)
 
-O objetivo deste desafio é desenvolver uma aplicação web completa e responsiva, cobrindo
-tanto o frontend quanto o backend. A aplicação deve permitir que os usuários realizem as
-operações de adicionar, editar, excluir e visualizar detalhes de filmes. Adicionalmente,
-são essenciais as funcionalidades de busca e filtragem dentro da lista de filmes.
+## Descrição
 
-## 2. Design
+O **Movie Challenge** é uma aplicação Fullstack desenvolvida como parte do desafio técnico da CUBOS. O projeto oferece uma API de filmes com autenticação segura e um frontend em Next.js, conectados em um monorepo que facilita a manutenção, o compartilhamento de tipos e a consistência arquitetural.
 
-A criação da interface do usuário deve seguir fielmente o design fornecido no Figma. A
-fidelidade visual será um ponto de avaliação importante. Contudo, encorajamos e
-valorizamos a implementação de melhorias e modificações criativas, desde que estas sejam
-claramente justificadas no arquivo `README.md`.
+O principal objetivo é demonstrar: arquitetura bem definida, proteção de rotas, fluxos de token seguro e experiência completa de CRUD de filmes com cadastro, login e renovação silenciosa de sessão.
 
-Pontos que requerem sua atenção especial:
+---
 
-- **Responsividade:** O design apresenta especificações para larguras de 1366 e 414
-  pixels. É crucial abordar e garantir a responsividade adequada para todas as dimensões
-  intermediárias e maiores, assegurando uma experiência consistente em diferentes
-  dispositivos.
-- **Detalhes do Usuário (UX/UI):** Elementos que aprimoram a experiência do usuário (UX) e
-  a navegabilidade podem não estar explicitamente detalhados no design. Espera-se que você
-  utilize sua criatividade e conhecimento técnico para implementar tais melhorias,
-  aprimorando a interface e a usabilidade geral.
+## Arquitetura e Decisões Técnicas
 
-[Acesse o figma para visualizar o design](https://www.figma.com/design/tRKL3c1EmyXAhnqtebtSB4/Desafio-Cubos---Fullstack?node-id=2-552&t=MFyYQX4nPWmi6nt6-0)
+- **Monorepo**: o repositório é organizado como monorepo em `apps/` e `packages/`, permitindo compartilhar configurações, tipos e regras entre `apps/api` e `apps/web`.
+- **Clean Architecture**: o backend separa responsabilidades em `use-cases`, `repositories`, `providers` e camadas de transporte HTTP. Isso melhora a escalabilidade e testabilidade do código.
+- **Backend moderno**: Fastify + Prisma + Zod garantem alta performance, validação rigorosa de dados e tipos sólidos.
+- **Frontend reativo**: Next.js com App Router, React, TailwindCSS e Axios compõem a interface, enquanto o middleware do Next protege páginas sensíveis.
 
-### 2.1 Cores e Temas
+### Fluxo de segurança da autenticação
 
-A paleta de cores foi definida utilizando o Radix Colors, um sistema conhecido por suas
-escalas de cores acessíveis e fáceis de implementar. Embora o Radix Colors sirva como base
-para o design, o uso da biblioteca de componentes Radix não é obrigatório. Você tem total
-liberdade para selecionar outras bibliotecas de componentes ou desenvolver componentes
-personalizados, desde que a justificativa para tal escolha seja apresentada no
-`README.md`.
+1. O usuário realiza login e recebe:
+   - um **access token** (JWT) armazenado em cookie no frontend como `movie-challenge.token`
+   - um **refresh token** seguro mantido em cookie HTTPOnly pelo Fastify
+2. O **Next.js Middleware** valida a existência do cookie `movie-challenge.token` e controla as rotas protegidas:
+   - redireciona para `/login` se o token não existir
+   - evita acesso à tela de login quando o usuário já está autenticado
+3. O **Axios interceptor** insere o header `Authorization: Bearer <token>` em cada requisição e faz a renovação silenciosa do token quando recebe `401` do backend.
+4. O backend expõe a rota `PATCH /api/token/refresh` para gerar um novo access token usando o refresh token HTTPOnly.
 
-O design principal adota um tema escuro. É requisito que a aplicação possua uma
-funcionalidade para alternar entre o tema claro e o tema escuro, com o controle acessível
-por meio de um botão posicionado no canto superior direito da interface.
+Esse fluxo combina segurança do servidor com experiência fluida no cliente.
 
-## 3. Requisitos das Páginas:
+---
 
-### 3.1 Página de Login
+## Tecnologias Utilizadas
 
-- Deve apresentar um formulário de login contendo campos para e-mail e senha.
-- Após um login bem-sucedido, o usuário deve ser automaticamente redirecionado para a
-  página de listagem de filmes.
-- Caso o usuário já esteja autenticado no sistema, o acesso a esta página deve resultar em
-  um redirecionamento imediato para a página de listagem de filmes.
+### Backend
 
-### 3.2 Página de Cadastro
+- Node.js
+- Fastify
+- Prisma ORM
+- PostgreSQL
+- Zod
+- JSON Web Tokens (JWT)
+- Fastify Swagger + Scalar API Reference
+- Mailhog para testes de e-mail em desenvolvimento
 
-- Deve conter um formulário de cadastro com os campos Nome, e-mail, senha e confirmação de
-  senha.
-- Similar à página de login, se o usuário já estiver logado, ele deve ser automaticamente
-  redirecionado para a página de listagem de filmes.
+### Frontend
 
-### 3.3 Página de Listagem de Filmes
+- Next.js
+- React
+- TailwindCSS
+- Axios
+- Next.js Middleware
+- React Context para autenticação
 
-- Esta página deve exibir a lista de todos os filmes cadastrados, independentemente de
-  qualquer filtro ou busca ativa.
-- Deve incluir um campo de busca que permita filtrar os filmes dinamicamente conforme o
-  usuário digita.
-- A lista de filmes deve ser paginada, exibindo um máximo de 10 itens por página.
-- Ao clicar no cartão de um filme, o usuário deve ser navegado para a sua página de
-  detalhes.
-- O acesso a esta página deve ser restrito a usuários logados; usuários não autenticados
-  não devem conseguir visualizá-la.
+### Testes
 
-### 3.3.1 Filtros
+- Vitest
+- Testcontainers
+- Supertest
 
-- Ao acionar o botão "Filtro", uma modal deve ser apresentada contendo opções para refinar
-  os resultados da lista de filmes.
-- Os filtros por **duração** e **data de lançamento** são obrigatórios. Para o filtro de
-  data de lançamento, a aplicação deve permitir que o usuário especifique um período,
-  definindo uma data de início e uma data de fim para a listagem.
-- Além dos filtros de duração e data, é necessário implementar ao menos um filtro
-  adicional, de sua escolha, para enriquecer as opções de pesquisa.
+### Infraestrutura
 
-### 3.4 Adição e Edição de Filme
+- Docker
+- Docker Compose
+- PostgreSQL
+- Mailhog
 
-- Em cenários onde um filme é criado com uma data de lançamento futura, o sistema deve
-  enviar um e-mail de lembrete ao usuário na data de estreia correspondente.
+---
 
-### 3.5 Página de Detalhes do Filme
+## Pré-requisitos
 
-- Esta página deve exibir informações detalhadas sobre um filme específico, incluindo, mas
-  não se limitando a: título, título original, data de lançamento, descrição, orçamento,
-  entre outros dados relevantes.
+Antes de executar o projeto, verifique se você tem instalado:
 
-### 3.6 Permissões
+- `git`
+- `Node.js` (recomenda-se versão 18+)
+- `npm`
+- `Docker`
+- `Docker Compose`
 
-- As ações de visualizar, editar e excluir filmes devem ser restritas exclusivamente ao
-  usuário que originalmente cadastrou o filme.
+---
 
-## 4. Stack Frontend
+## Como Executar o Projeto
 
-Nossa stack padrão recomendada é o React, sendo esta a opção mais segura e alinhada com as
-expectativas para este desafio. No entanto, incentivamos a exploração e adoção de outras
-tecnologias que possam trazer benefícios significativos ao projeto. Caso opte por uma
-stack diferente, é imperativo que sua decisão seja detalhadamente justificada no
-`README.md`, explicando como sua escolha contribui para a eficácia e a intuitividade do
-aplicativo.  
- O uso de TypeScript é obrigatório.
+### 1. Instalar dependências
 
-## 5. Stack Backend
+```bash
+npm install
+```
 
-- O banco de dados a ser utilizado é o **PostgreSQL**. As operações de migrações de banco
-  de dados devem ser implementadas. Sinta-se à vontade para escolher e utilizar o ORM de
-  sua preferência.
-- O armazenamento de imagens deve ser realizado em serviços de cloud como **AWS S3**,
-  **Cloudflare R2** ou **Google Cloud Storage**.
-- O desenvolvimento deve ser feito em **TypeScript**. Qualquer framework dentro do
-  ecossistema TypeScript é permitido.
-- Para o envio de e-mails, você pode utilizar serviços como **Mailhog**,
-  **Ethereal**,**Resend** ou **SES**.
+### 2. Configurar variáveis de ambiente
 
-## 6. Critérios de Avaliação
+Copie o template de ambiente para o backend:
 
-O projeto será avaliado com base nos seguintes critérios:
+```bash
+cp apps/api/.env.example apps/api/.env
+```
 
-- Implementação das funcionalidades exigidas.
-- Fidelidade à reprodução do design, incluindo a responsividade e a atenção aos detalhes
-  visuais e de UX.
-- Qualidade do código, avaliada pela organização, legibilidade e boas práticas de
-  desenvolvimento.
-- Alinhamento geral do projeto com o nível e os requisitos da vaga.
+Edite `apps/api/.env` com os valores corretos para:
 
-## 7. Entrega
+- `POSTGRESQL_USERNAME`
+- `POSTGRESQL_PASSWORD`
+- `POSTGRESQL_DATABASE`
+- `DATABASE_URL`
+- `JWT_SECRET`
 
-O projeto deve ser entregue em um repositório de código hospedado (como GitHub, GitLab,
-Bitbucket ou similar). É essencial incluir um arquivo `README.md` que contenha instruções
-claras e detalhadas sobre como compilar e executar a aplicação. Reforçamos que quaisquer
-modificações em relação aos requisitos aqui apresentados são encorajadas, desde que sejam
-devidamente justificadas no `README.md`.
+> O frontend usa `NEXT_PUBLIC_API_URL=http://localhost:3333` por padrão. Se usar o `docker compose` embutido, essa configuração já está definida no serviço `web`.
+
+### 3. Subir infraestrutura com Docker Compose
+
+```bash
+docker compose up -d
+```
+
+Isso inicializa:
+
+- `db` (PostgreSQL)
+- `api` (Fastify)
+- `web` (Next.js)
+- `mailhog`
+
+### 4. Aplicar migrações do Prisma
+
+```bash
+npm run prisma:migrate
+```
+
+### 5. Acessar a aplicação
+
+- Frontend: `http://localhost:3000`
+- API: `http://localhost:3333`
+
+---
+
+## Como Executar os Testes
+
+A suíte de testes E2E é executada no backend com Vitest e Testcontainers:
+
+```bash
+npm run test:e2e
+```
+
+Para rodar em modo watch:
+
+```bash
+npm run test:e2e:watch
+```
+
+---
+
+## Documentação da API
+
+A documentação gerada está disponível enquanto o backend estiver rodando em:
+
+```text
+http://localhost:3333/docs
+```
+
+Lá você encontrará os endpoints expostos, contratos de request/response e exemplos de uso.
+
+---
+
+## Próximos Passos / Melhorias Futuras
+
+- Adicionar controle de roles e permissões no backend
+- Implementar cache em camada de API para consultas de filmes
+- Adicionar SSR/SSG em partes do frontend para melhorar SEO e performance
+- Integrar pipelines de CI/CD com testes e validação de qualidade
+- Expandir o painel de administração para gerenciar filmes, usuários e estatísticas
+
+---
+
+## Observações
+
+Este projeto foi estruturado para ser uma base robusta de arquitetura Fullstack, com foco em segurança, modularidade e facilidade de desenvolvimento.

@@ -8,12 +8,43 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(uuid())
+  id            String @id @default(uuid())
   name          String
-  email         String   @unique
+  email         String @unique
   password_hash String
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  movies Movie[]
 
   @@map("users")
+}
+
+model Movie {
+  id             String   @id @default(uuid())
+  title          String
+  original_title String
+  description    String
+  duration       Int
+  release_date   DateTime
+  budget         Float
+  genre          String
+  slug           String   @unique
+  poster_url     String?
+
+  popularity Float  @default(0)
+  vote_count Int    @default(0)
+  rating     Float  @default(0)
+  status     String @default("Released")
+  language   String @default("en")
+  revenue    Float  @default(0)
+
+  user_id String @map("user_id")
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("movies")
 }

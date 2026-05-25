@@ -1,6 +1,6 @@
-import { IHashProvider } from '@/providers/HashProvider/IHashProvider'
-import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-users-repository'
-import { User } from 'generated/prisma/client'
+import { IHashProvider } from '@/providers/HashProvider/hash-provider'
+import { UserRepository } from '@/repositories/users-repository'
+import { User } from '@prisma/client'
 import { InvalidCredentialsError } from '../errors/invalid-credentials'
 
 interface AuthenticationUseCaseRequest {
@@ -14,7 +14,7 @@ interface AuthenticationUseCaseResponse {
 
 export class AuthenticationUseCase {
   constructor(
-    private userRepository: InMemoryUserRepository,
+    private userRepository: UserRepository,
     private hashProvider: IHashProvider,
   ) {}
 

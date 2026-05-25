@@ -1,4 +1,4 @@
-import { FakeHashProvider } from '@/providers/HashProvider/fakes/FakeHashProvider'
+import { FakeHashProvider } from '@/providers/HashProvider/fakes/fake-hash-provider'
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { InvalidCredentialsError } from '../errors/invalid-credentials'
@@ -19,13 +19,11 @@ describe('Authentication Use Case', () => {
   it('should be able to authenticate', async () => {
     const password_hash = await hashProvider.generateHash('123456')
 
-    const newUser = await usersRepository.create({
+    await usersRepository.create({
       name: 'Raphael',
       email: 'raphael@example.com',
       password_hash,
     })
-
-    console.log(newUser.password_hash)
 
     const { user } = await sut.execute({
       email: 'raphael@example.com',

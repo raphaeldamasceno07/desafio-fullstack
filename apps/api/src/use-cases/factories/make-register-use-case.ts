@@ -1,4 +1,4 @@
-import { BCryptHashProvider } from '@/providers/HashProvider/BCryptHashProvider'
+import { BCryptHashProvider } from '@/providers/HashProvider/bcrypt-hash-provider'
 import { PrismaUsersRepository } from '@/repositories/prisma/users-repository'
 import { RegisterUserUseCase } from '../user/register'
 

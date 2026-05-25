@@ -1,37 +1,37 @@
-# Dependencies
-node_modules/
-npm-debug.log
+    # Dependencies
+    node_modules/
+    npm-debug.log
 
-# Build outputs
-dist/
-build/
-.next/
-out/
+    # Build outputs
+    dist/
+    build/
+    .next/
+    out/
 
-# Environment and Secrets
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.git
-.gitignore
+    # Environment and Secrets
+    .env
+    .env.local
+    .env.development.local
+    .env.test.local
+    .env.production.local
+    .git
+    .gitignore
 
-# Testing
-coverage/
-.vitest/
+    # Testing
+    coverage/
+    .vitest/
 
-# IDEs
-.vscode/
-.idea/
-.DS_Store
+    # IDEs
+    .vscode/
+    .idea/
+    .DS_Store
 
-# Docker files
-Dockerfile
-docker-compose.yml
-compose.yaml
-postgres_data/
+    # Docker files
+    Dockerfile
+    docker-compose.yml
+    compose.yaml
+    postgres_data/
 
-# Documentation
-README.md
-LICENSE
+    # Documentation
+    README.md
+    LICENSE
