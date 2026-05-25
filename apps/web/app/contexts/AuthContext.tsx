@@ -1,6 +1,6 @@
 'use client'
 
-import { api } from '@/services/api'
+import { api, clearTokenCookie, setTokenCookie } from '@/services/api'
 import { useRouter } from 'next/navigation'
 import { createContext, useContext, useEffect, useState } from 'react'
 
@@ -33,13 +33,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const res = await api.get('/me')
       setUser(res.data)
-    } catch (error: any) {
-      console.error('Falha ao carregar usuário:', error)
-
-      const isAuthPage = ['/login', '/register'].includes(
-        window.location.pathname,
-      )
-
+    } catch {
+      // Se o token não for renovável (refresh expirado ou ausente), redireciona
+      const isAuthPage = ['/login', '/register'].includes(window.location.pathname)
       if (!isAuthPage) {
         router.push('/login')
       }
@@ -49,14 +45,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const login = (token: string, userData: User) => {
-    document.cookie = `movie-challenge.token=${token}; path=/; max-age=900` // 15 min
+    setTokenCookie(token) // cookie 7 dias — mesmo TTL do refreshToken
     setUser(userData)
     router.push('/movies')
   }
 
   const logout = () => {
-    document.cookie =
-      'movie-challenge.token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    clearTokenCookie()
     setUser(null)
     router.push('/login')
   }
