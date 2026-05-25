@@ -19,18 +19,11 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     },
   })
 
-  const { created_at, updated_at, ...userWithoutPassword } = user as {
-    id: string
-    name: string
-    email: string
-    password_hash?: string
-    created_at: Date
-    updated_at: Date
-  }
-
+  // 🌟 Envia EXATAMENTE o que o schema do Zod pede: id, name, email e createdAt
   return reply.status(200).send({
-    ...userWithoutPassword,
-    createdAt: created_at.toISOString(),
-    updatedAt: updated_at.toISOString(),
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    createdAt: user.createdAt.toISOString(),
   })
 }

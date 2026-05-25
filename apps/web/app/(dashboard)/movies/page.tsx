@@ -32,7 +32,7 @@ export default function DashboardPage() {
         onSearchChange={setSearch}
         onSubmit={handleSearchSubmit}
         onOpenFilters={() => setIsFiltersOpen(true)}
-        onOpenDrawer={() => setIsDrawerOpen}
+        onOpenDrawer={() => setIsDrawerOpen(true)}
       />
 
       <FiltersModal

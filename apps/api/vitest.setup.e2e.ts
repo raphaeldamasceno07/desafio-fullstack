@@ -33,11 +33,25 @@ export async function setup() {
   console.log('🔄 Syncing Schema with Test Database using DB Push...')
 
   try {
+    // 1. Executa o push com o objeto de configuração fechando certinho
     execSync('npx prisma db push --accept-data-loss', {
       stdio: 'pipe',
-      env: process.env,
+      env: {
+        ...process.env,
+        DATABASE_URL: uri,
+      },
     })
-    console.log('🚀 Database schema synced successfully! Starting tests...')
+    console.log('🚀 Database schema synced successfully!')
+
+    // 2. Importa e força a reconexão da API para limpar o pool antigo
+    const { prisma } = await import('./src/lib/prisma') // 🌟 Garanta que este caminho aponta certinho para o seu arquivo da lib do prisma
+
+    await prisma.$disconnect()
+    await prisma.$connect()
+
+    console.log(
+      '🔌 [Prisma Client] Conectado ao Testcontainer com sucesso! Iniciando testes...',
+    )
   } catch (error: any) {
     console.error(
       '\n❌ [Prisma DB Push Error]: Failed to sync schema to Testcontainer:',

@@ -30,6 +30,12 @@ export async function createMovie(
     release_date: fields.release_date?.value,
     budget: fields.budget?.value,
     genre: fields.genre?.value,
+    popularity: fields.popularity?.value,
+    vote_count: fields.vote_count?.value,
+    rating: fields.rating?.value,
+    status: fields.status?.value,
+    language: fields.language?.value,
+    revenue: fields.revenue?.value,
   }
 
   let validatedData
@@ -71,7 +77,19 @@ export async function createMovie(
       buffer: fileBuffer,
       mimeType: data.mimetype,
     },
+    popularity: validatedData.popularity,
+    vote_count: validatedData.vote_count,
+    rating: validatedData.rating,
+    status: validatedData.status,
+    language: validatedData.language,
+    revenue: validatedData.revenue,
   })
 
-  return reply.status(201).send({ movie })
+  return reply.status(201).send({
+    movie: {
+      ...movie,
+      createdAt: movie.createdAt,
+      updatedAt: movie.updatedAt,
+    },
+  })
 }

@@ -21,6 +21,12 @@ export class InMemoryMoviesRepository implements MovieRepository {
       slug: data.slug,
       user_id: data.user_id,
       poster_url: data.poster_url,
+      popularity: data.popularity ?? 0,
+      vote_count: data.vote_count ?? 0,
+      rating: data.rating ?? 0,
+      status: data.status ?? 'Released',
+      language: data.language ?? 'en',
+      revenue: data.revenue ?? 0,
       createdAt: new Date(),
     }
 

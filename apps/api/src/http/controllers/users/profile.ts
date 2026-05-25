@@ -10,15 +10,15 @@ export async function profile(request: FastifyRequest, reply: FastifyReply) {
 
   const {
     password_hash: _password_hash,
-    created_at,
-    updated_at: _updated_at,
+    createdAt,
+    updatedAt: _updated_at,
     ...userWithoutPassword
   } = user
-  void _password_hash
-  void _updated_at
 
   return reply.status(200).send({
-    ...userWithoutPassword,
-    createdAt: created_at.toISOString(),
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    createdAt: user.createdAt.toISOString(),
   })
 }

@@ -34,13 +34,21 @@ describe('Create Movie Use Case', () => {
       budget: 160000000,
       genre: 'Sci-Fi',
       release_date: '2010-07-16',
-      file: null,
+      file: undefined,
+      popularity: 85.5,
+      vote_count: 24000,
+      rating: 8.8,
+      status: 'Released',
+      language: 'en',
+      revenue: 836800000,
     })
 
     expect(movie.id).toEqual(expect.any(String))
     expect(movie.slug).toEqual('inception-2010')
     expect(movie.poster_url).toBeNull()
     expect(moviesRepository.items).toHaveLength(1)
+    expect(moviesRepository.items[0].rating).toEqual(8.8)
+    expect(moviesRepository.items[0].status).toEqual('Released')
   })
 
   it('should be able to create a movie WITH a poster image upload', async () => {
@@ -61,11 +69,18 @@ describe('Create Movie Use Case', () => {
       genre: 'Sci-Fi',
       release_date: '2014-11-07',
       file: fakeFile,
+      popularity: 92.1,
+      vote_count: 18000,
+      rating: 8.6,
+      status: 'Released',
+      language: 'en',
+      revenue: 701700000,
     })
 
     expect(movie.id).toEqual(expect.any(String))
     expect(movie.poster_url).toContain('https://fake-bucket.s3.amazonaws.com')
     expect(moviesRepository.items[0].poster_url).toEqual(movie.poster_url)
+    expect(moviesRepository.items[0].language).toEqual('en')
   })
 
   it('should not be able to create a movie with a duplicated slug', async () => {
@@ -80,6 +95,12 @@ describe('Create Movie Use Case', () => {
       budget: 63000000,
       genre: 'Action',
       release_date: '1999-03-31',
+      popularity: 78.4,
+      vote_count: 31000,
+      rating: 8.7,
+      status: 'Released',
+      language: 'en',
+      revenue: 467200000,
     }
 
     await sut.execute(moviePayload)
@@ -107,9 +128,16 @@ describe('Create Movie Use Case', () => {
       budget: 200000000,
       genre: 'Adventure',
       release_date: futureDateString,
+      popularity: 10.5,
+      vote_count: 0,
+      rating: 0,
+      status: 'Post Production',
+      language: 'en',
+      revenue: 0,
     })
 
     expect(movie.id).toEqual(expect.any(String))
+    expect(movie.status).toEqual('Post Production')
 
     expect(mailProvider.sentMails).toHaveLength(1)
     expect(mailProvider.sentMails[0].to).toEqual('raphael@example.com')

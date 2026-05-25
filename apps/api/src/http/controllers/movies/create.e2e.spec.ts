@@ -71,6 +71,13 @@ describe('Create Movie (E2E)', () => {
       .field('budget', '50000000')
       .field('release_date', '2026-05-20')
       .field('genre', 'Ação, Ficção')
+      .field('popularity', '88.4')
+      .field('vote_count', '1200')
+      .field('rating', '7.9')
+      .field('status', 'Lançado')
+      .field('language', 'Português')
+      .field('revenue', '150000000')
+
       .attach('file', Buffer.from('fake-image-content'), 'test-poster.jpg')
 
     expect(response.statusCode).toEqual(201)
@@ -83,6 +90,8 @@ describe('Create Movie (E2E)', () => {
     })
 
     expect(movieOnDatabase).toBeTruthy()
+    expect(movieOnDatabase?.rating).toEqual(7.9)
+    expect(movieOnDatabase?.language).toEqual('Português')
   })
 
   it('should schedule an email reminder when creating a movie with a future release date', async () => {

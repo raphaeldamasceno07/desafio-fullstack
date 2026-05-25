@@ -20,15 +20,20 @@ export function useRegister() {
   const handleRegisterSubmit = async (data: RegisterFormData) => {
     setApiError(null)
     try {
-      const response = await api.post('/users', {
+      await api.post('/users', {
         name: data.name,
         email: data.email,
         password: data.password,
       })
 
-      const { token } = response.data
+      const sessionResponse = await api.post('/sessions', {
+        email: data.email,
+        password: data.password,
+      })
 
-      await login(token)
+      const { token, user } = sessionResponse.data
+
+      await login(token, user)
     } catch (error) {
       setApiError(
         'Falha ao realizar cadastro. Verifique os dados ou tente outro e-mail.',

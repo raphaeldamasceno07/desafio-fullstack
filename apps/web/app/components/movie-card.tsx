@@ -4,19 +4,20 @@ import { MovieResponse } from '@movie-challenge/core-types'
 import Image from 'next/image'
 import { RatingRing } from './rating-ring'
 
-// Estendemos a tipagem caso o core-types use uma propriedade diferente
 interface MovieCardProps {
-  movie: MovieResponse & {
-    posterUrl?: string | null
-  }
+  movie: MovieResponse
 }
 
-export function MovieCard({ movie }: { movie: MovieCardProps['movie'] }) {
+export function MovieCard({ movie }: MovieCardProps) {
+  // 🌟 Usamos poster_url vindo direto da API do backend
+  const hasPoster =
+    typeof movie.poster_url === 'string' && movie.poster_url.trim() !== ''
+
   return (
     <article className="group relative aspect-[2/3] overflow-hidden rounded-md border border-border/60 bg-surface/80 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-brand/60 cursor-pointer">
-      {movie.posterUrl ? (
+      {hasPoster ? (
         <Image
-          src={movie.posterUrl}
+          src={movie.poster_url!} // 👈 Mudado de posterUrl para poster_url!
           alt={`Pôster do filme ${movie.title}`}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
@@ -50,10 +51,7 @@ export function MovieCard({ movie }: { movie: MovieCardProps['movie'] }) {
       </div>
 
       {/* Rating ring */}
-      <RatingRing
-        value={movie.rating || 0}
-        accent={movie.accent || '#8e4ec6'}
-      />
+      <RatingRing value={movie.rating || 0} />
 
       {/* Linha interna de contorno de vidro */}
       <div className="absolute inset-0 rounded-md ring-1 ring-inset ring-white/10 pointer-events-none z-20" />

@@ -20,6 +20,12 @@ interface CreateMovieUseCaseRequest {
     buffer: Buffer
     mimeType: string
   }
+  popularity?: number
+  vote_count?: number
+  rating?: number
+  status?: string
+  language?: string
+  revenue?: number
 }
 
 interface CreateMovieUseCaseResponse {
@@ -55,6 +61,7 @@ export class CreateMovieUseCase {
       )
     }
 
+    // 🌟 Repassando os novos campos opcionais para o repositório
     const movie = await this.moviesRepository.create({
       slug,
       title: data.title,
@@ -66,6 +73,12 @@ export class CreateMovieUseCase {
       genre: data.genre,
       user_id: data.userId,
       poster_url: posterUrl,
+      popularity: data.popularity ?? 0,
+      vote_count: data.vote_count ?? 0,
+      rating: data.rating ?? 0,
+      status: data.status ?? 'Released',
+      language: data.language ?? 'en',
+      revenue: data.revenue ?? 0,
     })
 
     await this.mailProvider.sendMail({

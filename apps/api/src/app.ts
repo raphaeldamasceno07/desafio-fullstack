@@ -33,6 +33,8 @@ app.register(fastifyMultipart, {
 app.register(cors, {
   origin: 'http://localhost:3000',
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // ← Adicionado PATCH
+  allowedHeaders: ['Content-Type', 'Authorization'],
 })
 
 app.register(fastifyJwt, {
@@ -40,9 +42,6 @@ app.register(fastifyJwt, {
   cookie: {
     cookieName: 'refreshToken',
     signed: false,
-  },
-  sign: {
-    expiresIn: '10m',
   },
 })
 

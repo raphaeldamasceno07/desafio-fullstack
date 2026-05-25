@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { FindManyMoviesParams } from '@movie-challenge/core-types'
-import { Movie, Prisma } from '@prisma/client'
+import { Movie } from '@prisma/client'
 import {
   CreateMovieRepositoryData,
   MovieRepository,
@@ -8,28 +8,31 @@ import {
 
 export class PrismaMoviesRepository implements MovieRepository {
   async create(data: CreateMovieRepositoryData): Promise<Movie> {
-    const movieDataInput: Prisma.MovieCreateInput = {
-      title: data.title,
-      original_title: data.original_title,
-      description: data.description,
-      duration: data.duration,
-      budget: data.budget,
-      genre: data.genre,
-      release_date: data.release_date,
-      slug: data.slug,
-      poster_url: data.poster_url,
-      user: {
-        connect: { id: data.user_id },
-      },
-    }
-
     const movie = await prisma.movie.create({
-      data: movieDataInput,
+      data: {
+        title: data.title,
+        original_title: data.original_title,
+        description: data.description,
+        duration: data.duration,
+        budget: data.budget,
+        genre: data.genre,
+        release_date: data.release_date,
+        slug: data.slug,
+        poster_url: data.poster_url,
+        popularity: data.popularity,
+        vote_count: data.vote_count,
+        rating: data.rating,
+        status: data.status,
+        language: data.language,
+        revenue: data.revenue,
+        user: {
+          connect: { id: data.user_id },
+        },
+      },
     })
 
     return movie
   }
-
   async findById(movieId: string): Promise<Movie | null> {
     const movie = await prisma.movie.findUnique({
       where: { id: movieId },
@@ -99,7 +102,7 @@ export class PrismaMoviesRepository implements MovieRepository {
       take: 10,
       skip: (page - 1) * 10,
       orderBy: {
-        createdAt: 'desc',
+        id: 'desc',
       },
     })
 

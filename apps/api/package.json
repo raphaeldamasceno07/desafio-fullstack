@@ -15,6 +15,7 @@
     "test:coverage": "vitest run --coverage",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:generate": "npx prisma generate",
+    "prisma:studio": "npx prisma studio --port 5555",
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {

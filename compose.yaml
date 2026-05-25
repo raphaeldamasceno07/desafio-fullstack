@@ -1,14 +1,24 @@
+version: '3.8'
+
 services:
   db:
     image: bitnami/postgresql:latest
     container_name: movie_challenge_db
     restart: always
-    env_file:
-      - ./apps/api/.env
+    env_file: ./apps/api/.env
+    environment:
+      - POSTGRESQL_USERNAME=${POSTGRES_USER}
+      - POSTGRESQL_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRES_DB}
     ports:
       - '5432:5432'
     volumes:
       - postgres_data:/bitnami/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   api:
     build:
@@ -21,12 +31,13 @@ services:
       - .:/app
       - /app/node_modules
       - /app/apps/api/node_modules
-    env_file:
-      - ./apps/api/.env
-    command: npm run dev -w apps/api
+    env_file: ./apps/api/.env
+    command: sh -c "cd apps/api && npx prisma migrate deploy && cd ../.. && npm run dev -w apps/api"
     depends_on:
-      - db
-      - mailhog
+      db:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
 
   web:
     build:
@@ -41,6 +52,8 @@ services:
       - /app/apps/web/.next
     env_file:
       - ./apps/web/.env
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3333
     command: npm run dev -w apps/web
     depends_on:
       - api

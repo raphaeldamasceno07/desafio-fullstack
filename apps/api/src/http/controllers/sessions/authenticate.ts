@@ -6,37 +6,25 @@ export async function session(request: FastifyRequest, reply: FastifyReply) {
   const { email, password } = authenticateBodySchema.parse(request.body)
 
   const authenticateUseCase = makeAuthenticateUseCase()
+  const { user } = await authenticateUseCase.execute({ email, password })
 
-  const { user } = await authenticateUseCase.execute({
-    email,
-    password,
-  })
-
+  // Access Token - curta duração (15 minutos)
   const token = await reply.jwtSign(
     {},
-    {
-      sign: {
-        sub: user.id,
-      },
-    },
+    { sign: { sub: user.id, expiresIn: '15m' } },
   )
 
   const refreshToken = await reply.jwtSign(
     {},
-    {
-      sign: {
-        sub: user.id,
-        expiresIn: '15m',
-      },
-    },
+    { sign: { sub: user.id, expiresIn: '7d' } },
   )
 
   return reply
     .setCookie('refreshToken', refreshToken, {
       path: '/',
-      secure: true,
-      sameSite: true,
       httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
     })
     .status(200)
     .send({

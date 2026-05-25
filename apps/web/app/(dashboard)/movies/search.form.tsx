@@ -44,7 +44,7 @@ export function SearchForm({
 
       <button
         type="button"
-        onClick={onOpenDrawer(true)}
+        onClick={() => onOpenDrawer()}
         className="btn-primary px-4"
       >
         Adicionar Filme

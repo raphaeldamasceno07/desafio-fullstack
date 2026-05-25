@@ -14,6 +14,7 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body className="min-h-screen bg-background antialiased text-foreground relative overflow-x-hidden">
         <Providers>
+          {/* Imagem de Fundo (Fixo atrás de tudo) */}
           <Image
             src={cinemaBg}
             alt="Plateia de cinema escura"
@@ -26,14 +27,20 @@ export default function RootLayout({
             className="z-0 fixed inset-0 pointer-events-none"
           />
 
+          {/* Overlay de Escurecimento */}
           <div className="fixed inset-0 bg-black/75 z-10 pointer-events-none" />
 
-          <Header />
+          {/* 🌟 Estrutura de Fluxo Principal: Tudo dentro de um container flex */}
+          <div className="relative z-20 min-h-screen w-full flex flex-col">
+            <Header />
 
-          <div className="relative z-20 min-h-screen w-full flex flex-col pt-20">
-            {children}
+            {/* 🌟 Tag <main> semântica com flex-1 para empurrar o footer para a base */}
+            <main className="flex-1 pt-20 w-full flex flex-col">
+              {children}
+            </main>
+
+            <Footer />
           </div>
-          <Footer />
         </Providers>
       </body>
     </html>
