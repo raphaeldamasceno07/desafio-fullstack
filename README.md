@@ -120,6 +120,7 @@ docker compose up -d
 5. Aplicar migrações do Prisma (gera schema e tabelas):
 
 ```bash
+cd apps/api
 npm run prisma:migrate
 ```
 
@@ -127,6 +128,7 @@ npm run prisma:migrate
 
 - Frontend: http://localhost:3000
 - API: http://localhost:3333
+- Scallar Doc: http://localhost:3333
 
 7. Comandos úteis de desenvolvimento (alternativas):
 
