@@ -85,6 +85,87 @@ Antes de executar o projeto, verifique se você tem instalado:
 - `Docker`
 - `Docker Compose`
 
+## Guia Rápido (pós-clonar)
+
+Execute estes comandos logo após clonar o repositório para subir a aplicação em modo de desenvolvimento e rodar os testes.
+
+1. Clonar o repositório e entrar na pasta:
+
+```bash
+git clone git@github.com:raphaeldamasceno07/desafio-fullstack.git
+cd desafio-fullstack
+```
+
+2. Instalar dependências (monorepo):
+
+```bash
+npm install
+```
+
+3. Copiar arquivos de ambiente e ajustar as variáveis (backend):
+
+```bash
+cp apps/api/.env.example apps/api/.env
+# (Opcional) copie o .env do web se existir
+cp apps/web/.env.example apps/web/.env || true
+# Edite apps/api/.env e defina POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, DATABASE_URL e JWT_SECRET
+```
+
+4. Subir infraestrutura (Postgres, Mailhog) e a API/Web com Docker Compose:
+
+```bash
+docker compose up -d
+```
+
+5. Aplicar migrações do Prisma (gera schema e tabelas):
+
+```bash
+npm run prisma:migrate
+```
+
+6. Abrir a aplicação:
+
+- Frontend: http://localhost:3000
+- API: http://localhost:3333
+
+7. Comandos úteis de desenvolvimento (alternativas):
+
+```bash
+# Ver logs da API via script do monorepo
+npm run dev:api
+
+# Rodar apenas o frontend em dev
+npm run dev:web
+```
+
+8. Rodar os testes rapidamente:
+
+```bash
+# Testes unitários do backend
+npm run test
+
+# Testes E2E
+npm run test:e2e
+
+# Cobertura
+npm run test:coverage
+```
+
+Nota importante para E2E:
+
+- Na primeira vez que for rodar os testes E2E, gere o client do Prisma dentro da pasta `apps/api`:
+
+```bash
+cd apps/api
+npx prisma generate
+```
+
+- As variáveis de ambiente do banco devem estar configuradas (em `apps/api/.env`). Certifique-se de definir **POSTGRES_DB** como abaixo para os testes E2E:
+
+```
+POSTGRES_DB=fullstack-challenge-db
+```
+
 ---
 
 ## Como Executar o Projeto
@@ -107,7 +188,7 @@ Edite `apps/api/.env` com os valores corretos para:
 
 - `POSTGRESQL_USERNAME`
 - `POSTGRESQL_PASSWORD`
-- `POSTGRESQL_DATABASE`
+- `POSTGRES_DB`
 - `DATABASE_URL`
 - `JWT_SECRET`
 
